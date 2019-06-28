@@ -71,6 +71,25 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
             estTimeLabel.text = "Estimated Time: " + textField.text!
         }
     }
+    
+    // MARK: Actions
+    @IBAction func workDatePickerValueChanged(_ sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.timeStyle = DateFormatter.Style.short
+        
+        let strDate = dateFormatter.string(from: sender.date)
+        workDateLabel.text = "Work Date: " + strDate
+    }
+    
+    @IBAction func dueDatePickerValueChanged(_ sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.timeStyle = DateFormatter.Style.short
+        
+        let strDate = dateFormatter.string(from: sender.date)
+        dueDateLabel.text = "Due Date: " + strDate
+    }
 
     // MARK: Table View Data Source
 
@@ -215,5 +234,4 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         // Pass the selected object to the new view controller.
     }
     */
-
 }
