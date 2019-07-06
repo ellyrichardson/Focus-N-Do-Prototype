@@ -59,6 +59,16 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         taskDescriptionTextView.delegate = self
         estTimeField.delegate = self
         
+        // Set up views if editing an existing Meal.
+        if let toDo = toDo {
+            /*navigationItem.title = meal.name
+            nameTextField.text = meal.name
+            photoImageView.image = meal.photo
+            ratingControl.rating = meal.rating*/
+            navigationItem.title = toDo.taskName
+            
+        }
+        
         updateSaveButtonState()
     }
     
@@ -235,15 +245,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
     }
     */
 
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     // Prepares view controller before it gets presented
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -265,6 +267,23 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         
         // Set the ToDo to be passed to ToDoListTableViewController after pressing save with unwind segue
         toDo = ToDo(taskName: taskName!, workDate: workDate, estTime: estTime!, dueDate: dueDate)
+    }
+    
+    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+        // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.
+        let isPresentingInAddToDoMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddToDoMode {
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController {
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("The ToDoItemTableViewController is not inside a navigation controller.")
+        }
+        
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Private Methods

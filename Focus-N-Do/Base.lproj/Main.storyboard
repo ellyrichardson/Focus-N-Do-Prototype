@@ -155,7 +155,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Task" id="Rva-Eu-uht">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="g2x-b7-86A"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="g2x-b7-86A">
+                            <connections>
+                                <action selector="cancelButton:" destination="kpK-e4-3nh" id="jYo-0w-gxn"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="cMQ-w4-1rA">
                             <connections>
                                 <segue destination="gsZ-D4-JLF" kind="unwind" unwindAction="unwindToToDoListWithSender:" id="rol-UM-Fmz"/>
@@ -189,7 +193,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="65" id="0SR-hk-DYt" customClass="ToDoTableViewCell" customModule="Focus_N_Do" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoTableViewCell" rowHeight="65" id="0SR-hk-DYt" customClass="ToDoTableViewCell" customModule="Focus_N_Do" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0SR-hk-DYt" id="WJP-P3-FNM" customClass="ToDoTableViewCell" customModule="Focus_N_Do" customModuleProvider="target">
@@ -210,14 +214,14 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Est. Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NgI-xO-abk">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Est. Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NgI-xO-abk">
                                             <rect key="frame" x="115" y="33" width="90" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="11"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yt2-3D-0BX">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Due Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yt2-3D-0BX">
                                             <rect key="frame" x="214" y="33" width="90" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="11"/>
@@ -231,6 +235,7 @@
                                     <outlet property="estTimeLabel" destination="NgI-xO-abk" id="rjD-jj-hiC"/>
                                     <outlet property="taskNameLabel" destination="1uG-Zm-SdD" id="IV4-8d-XZO"/>
                                     <outlet property="workDateLabel" destination="tUo-xO-1dS" id="Du7-8n-ZnI"/>
+                                    <segue destination="kpK-e4-3nh" kind="show" identifier="ShowToDoDetails" id="bt8-Ug-4L2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -242,7 +247,7 @@
                     <navigationItem key="navigationItem" title="Task List" id="AOe-hg-fpQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="a00-4z-GKr">
                             <connections>
-                                <segue destination="W79-JI-I9l" kind="presentation" id="Goe-Nx-SMb"/>
+                                <segue destination="W79-JI-I9l" kind="presentation" identifier="AddToDoItem" id="Goe-Nx-SMb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -284,4 +289,7 @@
             <point key="canvasLocation" x="-1208" y="485"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bt8-Ug-4L2"/>
+    </inferredMetricsTieBreakers>
 </document>
