@@ -10,6 +10,9 @@ import UIKit
 
 class ToDoListTableViewController: UITableViewController {
 
+    // MARK: - Properties
+    var toDos = [ToDo]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,23 +27,49 @@ class ToDoListTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return toDos.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+        // Table view cells are reused and should be dequeued using a cell identifier.
+        let cellIdentifier = "ToDoTableViewCell"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
+        }
+        
+        // Fetches the appropriate toDo for the data source layout.
+        let toDo = toDos[indexPath.row]
+        
+        cell.taskNameLabel.text = toDo.taskName;
+        cell.workDateLabel.text = toDo.workDate;
+        cell.estTimeLabel.text = toDo.estTime;
+        cell.dueDateLabel.text = toDo.dueDate;
+        
+        /*cell.nameLabel.text = meal.name
+        cell.photoImageView.image = meal.photo
+        cell.ratingControl.rating = meal.rating*/
 
         return cell
     }
-    */
+    
+    // MARK: - Actions
+    @IBAction func unwindToToDoList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? ToDoItemTableViewController, let toDo = sourceViewController.toDo {
+            // Add a new toDo
+            let newIndexPath = IndexPath(row: toDos.count, section: 0)
+            
+            toDos.append(toDo)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.

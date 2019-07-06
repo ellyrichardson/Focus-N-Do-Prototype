@@ -156,13 +156,18 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="New Task" id="Rva-Eu-uht">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="g2x-b7-86A"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="cMQ-w4-1rA"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="cMQ-w4-1rA">
+                            <connections>
+                                <segue destination="gsZ-D4-JLF" kind="unwind" unwindAction="unwindToToDoListWithSender:" id="rol-UM-Fmz"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="dueDateLabel" destination="dp1-3P-Ikf" id="ZLX-bb-LDK"/>
                         <outlet property="dueDatePicker" destination="psn-8O-Z1W" id="0zU-Ig-FAQ"/>
                         <outlet property="estTimeField" destination="5FD-cA-YZx" id="lNP-ha-IEc"/>
                         <outlet property="estTimeLabel" destination="jsC-37-fek" id="KSZ-hY-CX0"/>
+                        <outlet property="saveButton" destination="cMQ-w4-1rA" id="oKj-c2-Oag"/>
                         <outlet property="taskDescriptionTextView" destination="2px-C4-uKY" id="Do2-wr-V5j"/>
                         <outlet property="taskDetailsLabel" destination="Z5k-nx-ZdW" id="LeB-Ix-xt4"/>
                         <outlet property="taskNameField" destination="mdP-Jy-K0U" id="Hol-Gj-doY"/>
@@ -171,6 +176,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mkF-af-l50" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="gsZ-D4-JLF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-326.25" y="9.5070422535211261"/>
         </scene>
@@ -183,13 +189,49 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="0SR-hk-DYt">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="65" id="0SR-hk-DYt" customClass="ToDoTableViewCell" customModule="Focus_N_Do" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0SR-hk-DYt" id="WJP-P3-FNM">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0SR-hk-DYt" id="WJP-P3-FNM" customClass="ToDoTableViewCell" customModule="Focus_N_Do" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Task Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uG-Zm-SdD">
+                                            <rect key="frame" x="16" y="11" width="288" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Work Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tUo-xO-1dS">
+                                            <rect key="frame" x="16" y="33" width="90" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="11"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Est. Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NgI-xO-abk">
+                                            <rect key="frame" x="115" y="33" width="90" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="11"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yt2-3D-0BX">
+                                            <rect key="frame" x="214" y="33" width="90" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="11"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dueDateLabel" destination="yt2-3D-0BX" id="7Jt-tL-9l5"/>
+                                    <outlet property="estTimeLabel" destination="NgI-xO-abk" id="rjD-jj-hiC"/>
+                                    <outlet property="taskNameLabel" destination="1uG-Zm-SdD" id="IV4-8d-XZO"/>
+                                    <outlet property="workDateLabel" destination="tUo-xO-1dS" id="Du7-8n-ZnI"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -207,7 +249,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jMk-M5-giF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2094" y="10"/>
+            <point key="canvasLocation" x="-2094.375" y="9.5070422535211261"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vv6-9T-dJV">

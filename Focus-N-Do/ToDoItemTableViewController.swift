@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 // For the individual tables in the view
 struct TaskItemSections {
@@ -32,7 +33,12 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
     @IBOutlet weak var dueDateLabel: UILabel!
     @IBOutlet weak var dueDatePicker: UIDatePicker!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    var toDo: ToDo?
     var taskItemsSections = [TaskItemSections]()
+    private var chosenWorkDate: String = ""
+    private var chosenDueDate: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,10 +58,11 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         taskNameField.delegate = self
         taskDescriptionTextView.delegate = self
         estTimeField.delegate = self
+        
+        updateSaveButtonState()
     }
     
-    // MARK: UITextFieldDelegate
-    
+    // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Hide the keyboard
         textField.resignFirstResponder()
@@ -70,9 +77,10 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         else if textField == estTimeField {
             estTimeLabel.text = "Estimated Time: " + textField.text!
         }
+        updateSaveButtonState()
     }
     
-    // MARK: Actions
+    // MARK: - Actions
     @IBAction func workDatePickerValueChanged(_ sender: UIDatePicker) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.short
@@ -80,6 +88,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         
         let strDate = dateFormatter.string(from: sender.date)
         workDateLabel.text = "Work Date: " + strDate
+        chosenWorkDate = strDate
     }
     
     @IBAction func dueDatePickerValueChanged(_ sender: UIDatePicker) {
@@ -89,9 +98,10 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         
         let strDate = dateFormatter.string(from: sender.date)
         dueDateLabel.text = "Due Date: " + strDate
+        chosenDueDate = strDate
     }
 
-    // MARK: Table View Data Source
+    // MARK: - Table View Data Source
 
     /*override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -234,4 +244,50 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         // Pass the selected object to the new view controller.
     }
     */
+    // Prepares view controller before it gets presented
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        // Only prepare view controller when the save button is pressed
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button was not pressed, cancelling new item", log: OSLog.default,
+                   type: .debug)
+            return
+        }
+        
+        let taskName = taskNameField.text
+        let workDate = chosenWorkDate
+        let estTime = estTimeField.text
+        let dueDate = chosenDueDate
+        
+        updateSaveButtonState()
+        navigationItem.title = taskName
+        
+        // Set the ToDo to be passed to ToDoListTableViewController after pressing save with unwind segue
+        toDo = ToDo(taskName: taskName!, workDate: workDate, estTime: estTime!, dueDate: dueDate)
+    }
+    
+    // MARK: - Private Methods
+    // Disable the save button if the text field is empty
+    private func updateSaveButtonState() {
+        saveButton.isEnabled = false
+        
+        // Only allow saveButton if textFields are not empty
+        taskNameField.addTarget(self, action: #selector(textFieldsAreNotEmpty), for: .editingChanged)
+        estTimeField.addTarget(self, action: #selector(textFieldsAreNotEmpty), for: .editingChanged)
+    }
+    
+    // MARK: - Observers
+    // Only allow saveButton if textFields are not empty
+    @objc func textFieldsAreNotEmpty(sender: UITextField) {
+        guard
+            let taskName = taskNameField.text, !taskName.isEmpty,
+            let estTime = estTimeField.text, !estTime.isEmpty
+            else {
+                self.saveButton.isEnabled = false
+                return
+        }
+        // Enable save button if all conditions are met
+        saveButton.isEnabled = true
+    }
 }
