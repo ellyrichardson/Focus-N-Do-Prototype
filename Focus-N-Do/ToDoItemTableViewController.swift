@@ -52,6 +52,9 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         // Auto resizing the height of the cell
         tableView.estimatedRowHeight = 44.0
         tableView.rowHeight = UITableView.automaticDimension
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy, h:mm a"
 
         taskItemsSections = [
             TaskItemSections(name: "Task Details"),
@@ -65,14 +68,18 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         taskDescriptionTextView.delegate = self
         estTimeField.delegate = self
         
-        // Set up views if editing an existing Meal.
+        // Set up views if editing an existing ToDo.
         if let toDo = toDo {
-            /*navigationItem.title = meal.name
-            nameTextField.text = meal.name
-            photoImageView.image = meal.photo
-            ratingControl.rating = meal.rating*/
             navigationItem.title = toDo.taskName
-            
+            taskNameField.text = toDo.taskName
+            taskDescriptionTextView.text = toDo.taskDescription
+            taskDetailsLabel.text = "Task Details: " + toDo.taskName
+            workDateLabel.text = "Work Date: " + dateFormatter.string(from: toDo.workDate)
+            workDatePicker.date = toDo.workDate
+            estTimeLabel.text = "Estmated Time: " + toDo.estTime
+            estTimeField.text = toDo.estTime
+            dueDateLabel.text = "Due Date: " + dateFormatter.string(from: toDo.dueDate)
+            dueDatePicker.date = toDo.dueDate
         }
         
         updateSaveButtonState()
@@ -267,6 +274,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         }
         
         let taskName = taskNameField.text
+        let taskDescription = taskDescriptionTextView.text
         let workDate = chosenWorkDate
         let estTime = estTimeField.text
         let dueDate = chosenDueDate
@@ -275,7 +283,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         navigationItem.title = taskName
         
         // Set the ToDo to be passed to ToDoListTableViewController after pressing save with unwind segue
-        toDo = ToDo(taskName: taskName!, workDate: workDate, estTime: estTime!, dueDate: dueDate)
+        toDo = ToDo(taskName: taskName!, taskDescription: taskDescription!, workDate: workDate, estTime: estTime!, dueDate: dueDate)
     }
     
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {

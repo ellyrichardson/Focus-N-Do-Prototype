@@ -235,7 +235,7 @@
                                     <outlet property="estTimeLabel" destination="NgI-xO-abk" id="rjD-jj-hiC"/>
                                     <outlet property="taskNameLabel" destination="1uG-Zm-SdD" id="IV4-8d-XZO"/>
                                     <outlet property="workDateLabel" destination="tUo-xO-1dS" id="Du7-8n-ZnI"/>
-                                    <segue destination="kpK-e4-3nh" kind="show" identifier="ShowToDoDetails" id="bt8-Ug-4L2"/>
+                                    <segue destination="kpK-e4-3nh" kind="show" identifier="ShowToDoItemDetails" id="bt8-Ug-4L2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

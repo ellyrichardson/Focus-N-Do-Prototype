@@ -16,6 +16,11 @@ class ToDoListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // If there are saved ToDos, load them
+        if let savedToDos = loadToDos() {
+            toDos += savedToDos
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -55,10 +60,6 @@ class ToDoListTableViewController: UITableViewController {
         cell.workDateLabel.text = dateFormatter.string(from: toDo.workDate);
         cell.estTimeLabel.text = toDo.estTime;
         cell.dueDateLabel.text = dateFormatter.string(from: toDo.dueDate);
-        
-        /*cell.nameLabel.text = meal.name
-        cell.photoImageView.image = meal.photo
-        cell.ratingControl.rating = meal.rating*/
 
         return cell
     }
@@ -70,11 +71,23 @@ class ToDoListTableViewController: UITableViewController {
     // MARK: - Actions
     @IBAction func unwindToToDoList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? ToDoItemTableViewController, let toDo = sourceViewController.toDo {
-            // Add a new toDo
-            let newIndexPath = IndexPath(row: toDos.count, section: 0)
             
-            toDos.append(toDo)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Update an existing ToDo
+                toDos[selectedIndexPath.row] = toDo
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
+            
+            else {
+                // Add a new toDo
+                let newIndexPath = IndexPath(row: toDos.count, section: 0)
+                
+                toDos.append(toDo)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+            
+            // Save the ToDos
+            saveToDos()
         }
     }
 
@@ -92,6 +105,7 @@ class ToDoListTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             toDos.remove(at: indexPath.row)
+            saveToDos()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -124,7 +138,7 @@ class ToDoListTableViewController: UITableViewController {
         switch(segue.identifier ?? "") {
         case "AddToDoItem":
             os_log("Adding a new ToDo item.", log: OSLog.default, type: .debug)
-        case "ShowToDoItemDetail":
+        case "ShowToDoItemDetails":
             guard let toDoItemDetailViewController = segue.destination as? ToDoItemTableViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
@@ -142,6 +156,20 @@ class ToDoListTableViewController: UITableViewController {
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
+    }
+    
+    // MARK: - Private Methods
+    private func saveToDos() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("ToDos successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save toDos...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadToDos() -> [ToDo]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: ToDo.ArchiveURL.path) as? [ToDo]
     }
 
 }
