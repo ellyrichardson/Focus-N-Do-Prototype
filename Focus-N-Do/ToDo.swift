@@ -11,12 +11,13 @@ import os.log
 
 class ToDo {
     // MARK: - Properties
-    var taskName, workDate, estTime, dueDate: String
+    var taskName, estTime: String
+    var workDate, dueDate: Date
     
     // MARK: - Initialization
-    init?(taskName: String, workDate: String, estTime: String, dueDate: String) {
+    init?(taskName: String, workDate: Date, estTime: String, dueDate: Date) {
         // To fail init if one of them is empty
-        if taskName.isEmpty || workDate.isEmpty || estTime.isEmpty || dueDate.isEmpty {
+        if taskName.isEmpty || workDate == nil || estTime.isEmpty || dueDate == nil {
             return nil
         }
         

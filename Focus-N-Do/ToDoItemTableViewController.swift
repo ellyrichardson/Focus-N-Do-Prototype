@@ -37,8 +37,14 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
     
     var toDo: ToDo?
     var taskItemsSections = [TaskItemSections]()
-    private var chosenWorkDate: String = ""
-    private var chosenDueDate: String = ""
+    private var chosenWorkDate: Date
+    private var chosenDueDate: Date
+    
+    required init?(coder aDecoder: NSCoder) {
+        chosenWorkDate = Date()
+        chosenDueDate = Date()
+        super.init(coder: aDecoder)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,9 +102,10 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         dateFormatter.dateStyle = DateFormatter.Style.short
         dateFormatter.timeStyle = DateFormatter.Style.short
         
-        let strDate = dateFormatter.string(from: sender.date)
+        chosenWorkDate = sender.date
+        let strDate = dateFormatter.string(from: chosenWorkDate)
         workDateLabel.text = "Work Date: " + strDate
-        chosenWorkDate = strDate
+        //chosenWorkDate = dateFormatter.date(from: strDate)!
     }
     
     @IBAction func dueDatePickerValueChanged(_ sender: UIDatePicker) {
@@ -106,9 +113,11 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         dateFormatter.dateStyle = DateFormatter.Style.short
         dateFormatter.timeStyle = DateFormatter.Style.short
         
-        let strDate = dateFormatter.string(from: sender.date)
+        
+        chosenDueDate = sender.date
+        let strDate = dateFormatter.string(from: chosenDueDate)
         dueDateLabel.text = "Due Date: " + strDate
-        chosenDueDate = strDate
+        //chosenDueDate = dateFormatter.date(from: strDate)!
     }
 
     // MARK: - Table View Data Source

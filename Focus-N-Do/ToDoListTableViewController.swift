@@ -41,6 +41,7 @@ class ToDoListTableViewController: UITableViewController {
 
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "ToDoTableViewCell"
+        let dateFormatter = DateFormatter()
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
             fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
@@ -50,9 +51,9 @@ class ToDoListTableViewController: UITableViewController {
         let toDo = toDos[indexPath.row]
         
         cell.taskNameLabel.text = toDo.taskName;
-        cell.workDateLabel.text = toDo.workDate;
+        cell.workDateLabel.text = dateFormatter.string(from: toDo.workDate);
         cell.estTimeLabel.text = toDo.estTime;
-        cell.dueDateLabel.text = toDo.dueDate;
+        cell.dueDateLabel.text = dateFormatter.string(from: toDo.dueDate);
         
         /*cell.nameLabel.text = meal.name
         cell.photoImageView.image = meal.photo
