@@ -13,6 +13,7 @@ class ToDoListTableViewController: UITableViewController {
 
     // MARK: - Properties
     var toDos = [ToDo]()
+    //var sorter: Array<ToDo> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,7 @@ class ToDoListTableViewController: UITableViewController {
         // If there are saved ToDos, load them
         if let savedToDos = loadToDos() {
             toDos += savedToDos
+            sortToDosByWorkDate()
         }
 
         // Uncomment the following line to preserve selection between presentations
@@ -27,6 +29,12 @@ class ToDoListTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reloadTableViewData()
     }
 
     // MARK: - Table view data source
@@ -160,6 +168,7 @@ class ToDoListTableViewController: UITableViewController {
     
     // MARK: - Private Methods
     private func saveToDos() {
+        //sortToDosByWorkDate()
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("ToDos successfully saved.", log: OSLog.default, type: .debug)
@@ -170,6 +179,19 @@ class ToDoListTableViewController: UITableViewController {
     
     private func loadToDos() -> [ToDo]? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: ToDo.ArchiveURL.path) as? [ToDo]
+    }
+    
+    private func sortToDosByWorkDate() {
+        toDos = toDos.sorted(by: {
+            $1.workDate > $0.workDate
+        })
+    }
+    
+    private func reloadTableViewData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        /*self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: true)*/
     }
 
 }
