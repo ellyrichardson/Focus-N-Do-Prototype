@@ -51,7 +51,6 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "ToDoTableViewCell"
@@ -192,7 +191,6 @@ class ToDoListTableViewController: UITableViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        /*self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: true)*/
     }
 
 }

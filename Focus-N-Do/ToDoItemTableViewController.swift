@@ -112,7 +112,6 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         chosenWorkDate = sender.date
         let strDate = dateFormatter.string(from: chosenWorkDate)
         workDateLabel.text = "Work Date: " + strDate
-        //chosenWorkDate = dateFormatter.date(from: strDate)!
     }
     
     @IBAction func dueDatePickerValueChanged(_ sender: UIDatePicker) {
@@ -124,7 +123,6 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         chosenDueDate = sender.date
         let strDate = dateFormatter.string(from: chosenDueDate)
         dueDateLabel.text = "Due Date: " + strDate
-        //chosenDueDate = dateFormatter.date(from: strDate)!
     }
 
     // MARK: - Table View Data Source
