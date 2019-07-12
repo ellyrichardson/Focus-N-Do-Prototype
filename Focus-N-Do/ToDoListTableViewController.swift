@@ -13,7 +13,6 @@ class ToDoListTableViewController: UITableViewController {
 
     // MARK: - Properties
     var toDos = [ToDo]()
-    //var sorter: Array<ToDo> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
