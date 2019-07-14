@@ -13,6 +13,7 @@ class ToDoListTableViewController: UITableViewController {
 
     // MARK: - Properties
     var toDos = [ToDo]()
+    var toDoDateGroup = [Date]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ class ToDoListTableViewController: UITableViewController {
         // If there are saved ToDos, load them
         if let savedToDos = loadToDos() {
             toDos += savedToDos
-            sortToDosByWorkDate()
+            //sortToDosByWorkDate()
         }
 
         // Uncomment the following line to preserve selection between presentations
