@@ -8,14 +8,21 @@
 
 import UIKit
 
-class ToDoGroupTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate{
-    var toDos = [ToDo]()
-    var toDoSubMenuTable: UITableView?
-
+class ToDoGroupTableViewCell: UITableViewCell {
+    /*var toDos = [ToDo]()
+    var toDoSubMenuTable: UITableView?*/
+    
+    // MARK: - Properties
+    
+    @IBOutlet weak var taskNameLabel: UILabel!
+    @IBOutlet weak var workDateLabel: UILabel!
+    @IBOutlet weak var estTimeLabel: UILabel!
+    @IBOutlet weak var dueDateLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        setupSubTable()
+        //setupSubTable()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -23,14 +30,40 @@ class ToDoGroupTableViewCell: UITableViewCell, UITableViewDataSource, UITableVie
 
         // Configure the view for the selected state
     }
+}
+
+/*class ToDoGroupTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate{
+    var toDos = [ToDo]()
+    var toDoSubMenuTable: UITableView?
     
-    // MARK: - Table View Data Source
+    // MARK: - Table view data source
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return toDos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        var cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "cellID")
+        
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cellID")
+        }
+        
+        cell?.textLabel?.text = toDos[indexPath.row].taskName
+        
+        return cell!
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        setupSubTable()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
     }
     
     // MARK: - Private Methods
@@ -40,5 +73,5 @@ class ToDoGroupTableViewCell: UITableViewCell, UITableViewDataSource, UITableVie
         toDoSubMenuTable?.dataSource = self
         self.addSubview(toDoSubMenuTable!)
     }
-
-}
+    
+}*/

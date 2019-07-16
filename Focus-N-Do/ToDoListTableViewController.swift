@@ -19,9 +19,23 @@ class ToDoListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         // If there are saved ToDos, load them
-        if let savedToDos = loadToDos() {
+        /*if let savedToDos = loadToDos() {
             toDos += savedToDos
             //sortToDosByWorkDate()
+        }*/
+        
+        if let savedToDos = loadToDos() {
+            for toDo in savedToDos {
+                for toDoDate in toDoDateGroup {
+                    let chosenWorkDate = toDo.workDate
+                    if chosenWorkDate != toDoDate {
+                        toDoDateGroup.append(chosenWorkDate)
+                    }
+                }
+            }
+            sortToDoGroupDates()
+            //for toDo in savedToDos
+            //toDos = savedToDos
         }
 
         // Uncomment the following line to preserve selection between presentations
@@ -34,7 +48,7 @@ class ToDoListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        sortToDosByWorkDate()
+        sortToDoGroupDates()
         reloadTableViewData()
     }
 
@@ -51,7 +65,7 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        /*
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "ToDoTableViewCell"
         let dateFormatter = DateFormatter()
@@ -69,6 +83,31 @@ class ToDoListTableViewController: UITableViewController {
         cell.estTimeLabel.text = toDo.estTime;
         cell.dueDateLabel.text = dateFormatter.string(from: toDo.dueDate);
 
+        return cell
+         */
+        
+        // Table view cells are reused and should be dequeued using a cell identifier.
+        let cellIdentifier = "ToDoTableViewCell"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
+        }
+        
+        // Fetches the appropriate toDo for the data source layout.
+        let toDoDate = toDoDateGroup[indexPath.row]
+        
+        cell.toDoDate = toDoDate
+        cell.toDoDateWeekDayLabel.text = dateFormatter.string(from: toDoDate)
+        /*let toDo1 = ToDo(taskName: "Test", taskDescription: "Test Desc", workDate: Date(), estTime: "Test Est", dueDate: Date())
+        let toDo2 = ToDo(taskName: "Test2", taskDescription: "Test Desc2", workDate: Date(), estTime: "Test Est2", dueDate: Date())
+        let toDo3 = ToDo(taskName: "Test3", taskDescription: "Test Desc3", workDate: Date(), estTime: "Test Est3", dueDate: Date())
+        
+        cell.toDos.append(toDo1!)
+        cell.toDos.append(toDo2!)
+        cell.toDos.append(toDo3!)*/
+        
         return cell
     }
     
@@ -151,7 +190,7 @@ class ToDoListTableViewController: UITableViewController {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedToDoItemCell = sender as? ToDoTableViewCell else {
+            guard let selectedToDoItemCell = sender as? ToDoGroupTableViewCell else {
                 fatalError("Unexpected sender: \(sender)")
             }
             
@@ -181,9 +220,15 @@ class ToDoListTableViewController: UITableViewController {
         return NSKeyedUnarchiver.unarchiveObject(withFile: ToDo.ArchiveURL.path) as? [ToDo]
     }
     
-    private func sortToDosByWorkDate() {
+    /*private func sortToDosByWorkDate() {
         toDos = toDos.sorted(by: {
             $1.workDate > $0.workDate
+        })
+    }*/
+    
+    private func sortToDoGroupDates() {
+        toDoDateGroup = toDoDateGroup.sorted(by: {
+            $1 > $0
         })
     }
     

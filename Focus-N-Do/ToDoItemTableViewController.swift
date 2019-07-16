@@ -22,7 +22,7 @@ struct TaskItemSections {
 
 class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
     
-    // MARK: Properties
+    // MARK: - Properties
     @IBOutlet weak var taskDetailsLabel: UILabel!
     @IBOutlet weak var taskNameField: UITextField!
     @IBOutlet weak var taskDescriptionTextView: UITextView!
@@ -36,6 +36,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var toDo: ToDo?
+    //var toDoDate: ToDoDate?
     var taskItemsSections = [TaskItemSections]()
     private var chosenWorkDate: Date
     private var chosenDueDate: Date
@@ -282,6 +283,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         
         // Set the ToDo to be passed to ToDoListTableViewController after pressing save with unwind segue
         toDo = ToDo(taskName: taskName!, taskDescription: taskDescription!, workDate: workDate, estTime: estTime!, dueDate: dueDate)
+        //toDoDate = ToDoDate(toDoDate: workDate)
     }
     
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
