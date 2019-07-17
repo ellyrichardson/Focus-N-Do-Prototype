@@ -24,10 +24,10 @@ class ToDoListTableViewController: UITableViewController {
             //sortToDosByWorkDate()
         }*/
         
-        if let savedToDos = loadToDos() {
+        /*if let savedToDos = loadToDos() {
             for toDo in savedToDos {
+                let chosenWorkDate = toDo.workDate
                 for toDoDate in toDoDateGroup {
-                    let chosenWorkDate = toDo.workDate
                     if chosenWorkDate != toDoDate {
                         toDoDateGroup.append(chosenWorkDate)
                     }
@@ -36,7 +36,9 @@ class ToDoListTableViewController: UITableViewController {
             sortToDoGroupDates()
             //for toDo in savedToDos
             //toDos = savedToDos
-        }
+        }*/
+        groupToDosAccordingToDates()
+        sortToDoGroupDates()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -48,6 +50,21 @@ class ToDoListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        /*if let savedToDos = loadToDos() {
+            for toDo in savedToDos {
+                let chosenWorkDate = toDo.workDate
+                for toDoDate in toDoDateGroup {
+                    if chosenWorkDate != toDoDate {
+                        toDoDateGroup.append(chosenWorkDate)
+                    }
+                }
+            }
+            sortToDoGroupDates()
+            //for toDo in savedToDos
+            //toDos = savedToDos
+        }*/
+        
+        groupToDosAccordingToDates()
         sortToDoGroupDates()
         reloadTableViewData()
     }
@@ -61,7 +78,7 @@ class ToDoListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return toDos.count
+        return toDoDateGroup.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -121,7 +138,8 @@ class ToDoListTableViewController: UITableViewController {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 // Update an existing ToDo
-                toDos[selectedIndexPath.row] = toDo
+                //toDos.append(toDo)
+                toDoDateGroup[selectedIndexPath.row] = toDo.workDate
                 tableView.reloadRows(at: [selectedIndexPath], with: .none)
             }
             
@@ -130,6 +148,7 @@ class ToDoListTableViewController: UITableViewController {
                 let newIndexPath = IndexPath(row: toDos.count, section: 0)
                 
                 toDos.append(toDo)
+                toDoDateGroup.append(toDo.workDate)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
             
@@ -225,6 +244,30 @@ class ToDoListTableViewController: UITableViewController {
             $1.workDate > $0.workDate
         })
     }*/
+    
+    private func groupToDosAccordingToDates() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        
+        if let savedToDos = loadToDos() {
+            for toDo in savedToDos {
+                print(toDo.taskName)
+                let chosenWorkDate = toDo.workDate
+                print(dateFormatter.string(from: chosenWorkDate))
+                if toDoDateGroup.isEmpty {
+                    toDoDateGroup.append(chosenWorkDate)
+                } else {
+                    for toDoDate in toDoDateGroup {
+                        //print(dateFormatter.string(from: chosenWorkDate))
+                        if chosenWorkDate != toDoDate {
+                            toDoDateGroup.append(chosenWorkDate)
+                        }
+                    }
+                }
+            }
+            //sortToDoGroupDates()
+        }
+    }
     
     private func sortToDoGroupDates() {
         toDoDateGroup = toDoDateGroup.sorted(by: {
