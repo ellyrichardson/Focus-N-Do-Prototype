@@ -13,30 +13,13 @@ class ToDoListTableViewController: UITableViewController {
 
     // MARK: - Properties
     var toDos = [ToDo]()
-    var toDoDateGroup = [Date]()
+    var toDoDateGroup = [String]()
+    var savedToDos = [ToDo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // If there are saved ToDos, load them
-        /*if let savedToDos = loadToDos() {
-            toDos += savedToDos
-            //sortToDosByWorkDate()
-        }*/
-        
-        /*if let savedToDos = loadToDos() {
-            for toDo in savedToDos {
-                let chosenWorkDate = toDo.workDate
-                for toDoDate in toDoDateGroup {
-                    if chosenWorkDate != toDoDate {
-                        toDoDateGroup.append(chosenWorkDate)
-                    }
-                }
-            }
-            sortToDoGroupDates()
-            //for toDo in savedToDos
-            //toDos = savedToDos
-        }*/
         groupToDosAccordingToDates()
         sortToDoGroupDates()
 
@@ -50,19 +33,7 @@ class ToDoListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        /*if let savedToDos = loadToDos() {
-            for toDo in savedToDos {
-                let chosenWorkDate = toDo.workDate
-                for toDoDate in toDoDateGroup {
-                    if chosenWorkDate != toDoDate {
-                        toDoDateGroup.append(chosenWorkDate)
-                    }
-                }
-            }
-            sortToDoGroupDates()
-            //for toDo in savedToDos
-            //toDos = savedToDos
-        }*/
+        savedToDos = loadToDos()!
         
         groupToDosAccordingToDates()
         sortToDoGroupDates()
@@ -106,7 +77,8 @@ class ToDoListTableViewController: UITableViewController {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "ToDoTableViewCell"
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        dateFormatter.dateFormat = "M/d/yy"
+        //dateFormatter.dateFormat = "M/d/yy, h:mm a"
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
             fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
@@ -115,8 +87,8 @@ class ToDoListTableViewController: UITableViewController {
         // Fetches the appropriate toDo for the data source layout.
         let toDoDate = toDoDateGroup[indexPath.row]
         
-        cell.toDoDate = toDoDate
-        cell.toDoDateWeekDayLabel.text = dateFormatter.string(from: toDoDate)
+        cell.toDoDate = dateFormatter.date(from: toDoDate)!
+        cell.toDoDateWeekDayLabel.text = toDoDate
         /*let toDo1 = ToDo(taskName: "Test", taskDescription: "Test Desc", workDate: Date(), estTime: "Test Est", dueDate: Date())
         let toDo2 = ToDo(taskName: "Test2", taskDescription: "Test Desc2", workDate: Date(), estTime: "Test Est2", dueDate: Date())
         let toDo3 = ToDo(taskName: "Test3", taskDescription: "Test Desc3", workDate: Date(), estTime: "Test Est3", dueDate: Date())
@@ -137,19 +109,29 @@ class ToDoListTableViewController: UITableViewController {
         if let sourceViewController = sender.source as? ToDoItemTableViewController, let toDo = sourceViewController.toDo {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "M/d/yy"
                 // Update an existing ToDo
                 //toDos.append(toDo)
-                toDoDateGroup[selectedIndexPath.row] = toDo.workDate
+                toDoDateGroup[selectedIndexPath.row] = dateFormatter.string(from: toDo.workDate)
                 tableView.reloadRows(at: [selectedIndexPath], with: .none)
             }
             
             else {
                 // Add a new toDo
-                let newIndexPath = IndexPath(row: toDos.count, section: 0)
-                
                 toDos.append(toDo)
-                toDoDateGroup.append(toDo.workDate)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
+                
+                var newIndexPath: IndexPath
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "M/d/yy"
+                
+                if (toDoDateGroup.isEmpty) {
+                    newIndexPath = IndexPath(row: toDoDateGroup.count, section: 0)
+                    toDoDateGroup.append(dateFormatter.string(from: toDo.workDate))
+                    tableView.insertRows(at: [newIndexPath], with: .automatic)
+                } else {
+                    groupToDosAccordingToDates()
+                }
             }
             
             // Save the ToDos
@@ -247,25 +229,20 @@ class ToDoListTableViewController: UITableViewController {
     
     private func groupToDosAccordingToDates() {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        dateFormatter.dateFormat = "M/d/yy"
+        //dateFormatter.dateFormat = "M/d/yy, h:mm a"
         
-        if let savedToDos = loadToDos() {
-            for toDo in savedToDos {
-                print(toDo.taskName)
-                let chosenWorkDate = toDo.workDate
-                print(dateFormatter.string(from: chosenWorkDate))
-                if toDoDateGroup.isEmpty {
-                    toDoDateGroup.append(chosenWorkDate)
-                } else {
-                    for toDoDate in toDoDateGroup {
-                        //print(dateFormatter.string(from: chosenWorkDate))
-                        if chosenWorkDate != toDoDate {
-                            toDoDateGroup.append(chosenWorkDate)
-                        }
-                    }
-                }
+        var newIndexPath: IndexPath
+        
+        for toDo in toDos {
+            print(toDo.taskName)
+            let chosenWorkDate = dateFormatter.string(from: toDo.workDate)
+            if !toDoDateGroup.contains(chosenWorkDate) {
+                print(chosenWorkDate)
+                newIndexPath = IndexPath(row: toDoDateGroup.count, section: 0)
+                toDoDateGroup.append(chosenWorkDate)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
-            //sortToDoGroupDates()
         }
     }
     

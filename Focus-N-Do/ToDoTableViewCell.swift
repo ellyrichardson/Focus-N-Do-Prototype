@@ -91,6 +91,7 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         
         let cellIdentifier = "ToDoGroupTableViewCell"
         let dateFormatter = DateFormatter()
+        //dateFormatter.dateFormat = "M/d/yy"
         dateFormatter.dateFormat = "M/d/yy, h:mm a"
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoGroupTableViewCell  else {
