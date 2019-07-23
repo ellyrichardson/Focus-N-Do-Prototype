@@ -247,7 +247,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="toDoDateWeekDayLabel" destination="wQL-Zr-TJm" id="kkJ-Ev-cT4"/>
-                                    <outlet property="toDoGroupTableView" destination="wYL-DJ-H9A" id="StC-OP-2LC"/>
+                                    <outlet property="toDoTableView" destination="wYL-DJ-H9A" id="Rsv-Qz-ZNY"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

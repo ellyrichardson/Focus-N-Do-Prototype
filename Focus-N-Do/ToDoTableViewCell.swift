@@ -16,7 +16,10 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var dueDateLabel: UILabel!*/
     
     @IBOutlet weak var toDoDateWeekDayLabel: UILabel!
-    @IBOutlet weak var toDoGroupTableView: UITableView!
+    @IBOutlet weak var toDoTableView: UITableView!
+    //@IBOutlet weak var toDoTableView: UITableView!
+    //@IBOutlet weak var toDoTableView: UITableView!
+    //@IBOutlet weak var toDoGroupTableView: UITableView!
     
     var toDos = [ToDo]()
     var toDoSubMenuTable: UITableView?
@@ -32,15 +35,18 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         super.awakeFromNib()
         // Initialization code
         /*setupSubTable()*/
+        //print("Inner Cell Data");
+        toDoTableView.delegate = self
+        toDoTableView.dataSource = self
         dateFormatter.dateFormat = "M/d/yy, h:mm a"
-        if let savedToDos = loadToDos() {
+        /*if let savedToDos = loadToDos() {
             for toDo in savedToDos {
                 //let chosenWorkDate = toDo.workDate
                 if toDo.workDate == toDoDate {
                     toDos.append(toDo)
                 }
             }
-        }
+        }*/
             /*for toDo in savedToDos {
                 for toDoDate in toDoDates {
                     let chosenWorkDate = toDo.workDate
@@ -59,6 +65,8 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+        toDoTableView.delegate = self
+        toDoTableView.dataSource = self
     }
     // * -- TEST
     
@@ -74,6 +82,7 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     // MARK: - Table view data source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("Inner Cell Data");
         return toDos.count
     }
     
@@ -88,11 +97,13 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         //cell?.textLabel?.text = toDos[indexPath.row].taskName
         
         return cell!*/
-        
+        print("Inner Cell Data");
         let cellIdentifier = "ToDoGroupTableViewCell"
-        let dateFormatter = DateFormatter()
+        let dueDateFormatter = DateFormatter()
+        let workDateFormatter = DateFormatter()
         //dateFormatter.dateFormat = "M/d/yy"
-        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        dueDateFormatter.dateFormat = "M/d/yy, h:mm a"
+        workDateFormatter.dateFormat = "h:mm a"
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoGroupTableViewCell  else {
             fatalError("The dequeued cell is not an instance of ToDoGroupTableViewCell.")
@@ -102,9 +113,9 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         let toDo = toDos[indexPath.row]
         
         cell.taskNameLabel.text = toDo.taskName;
-        cell.workDateLabel.text = dateFormatter.string(from: toDo.workDate);
+        cell.workDateLabel.text = workDateFormatter.string(from: toDo.workDate);
         cell.estTimeLabel.text = toDo.estTime;
-        cell.dueDateLabel.text = dateFormatter.string(from: toDo.dueDate);
+        cell.dueDateLabel.text = dueDateFormatter.string(from: toDo.dueDate);
         
         /*let toDo1 = ToDo(taskName: "Test", taskDescription: "Test Desc", workDate: Date(), estTime: "Test Est", dueDate: Date())
          let toDo2 = ToDo(taskName: "Test2", taskDescription: "Test Desc2", workDate: Date(), estTime: "Test Est2", dueDate: Date())
@@ -120,11 +131,12 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     // MARK: - Private Methods
     
     private func loadToDos() -> [ToDo]? {
+        print("loadToDos()")
         return NSKeyedUnarchiver.unarchiveObject(withFile: ToDo.ArchiveURL.path) as? [ToDo]
     }
     
     private func setupSubTable() {
-        toDoSubMenuTable = toDoGroupTableView
+        toDoSubMenuTable = toDoTableView
         toDoSubMenuTable?.delegate = self
         toDoSubMenuTable?.dataSource = self
         //self.addSubview(toDoSubMenuTable!)

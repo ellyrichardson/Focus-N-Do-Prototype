@@ -14,12 +14,15 @@ class ToDoListTableViewController: UITableViewController {
     // MARK: - Properties
     var toDos = [ToDo]()
     var toDoDateGroup = [String]()
-    var savedToDos = [ToDo]()
+    //var savedToDos = [ToDo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // If there are saved ToDos, load them
+        if let savedToDos = loadToDos() {
+            toDos = savedToDos
+        }
         groupToDosAccordingToDates()
         sortToDoGroupDates()
 
@@ -33,7 +36,7 @@ class ToDoListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        savedToDos = loadToDos()!
+        //savedToDos = loadToDos()!
         
         groupToDosAccordingToDates()
         sortToDoGroupDates()
@@ -75,12 +78,13 @@ class ToDoListTableViewController: UITableViewController {
          */
         
         // Table view cells are reused and should be dequeued using a cell identifier.
-        let cellIdentifier = "ToDoTableViewCell"
+        let dateCellIdentifier = "ToDoTableViewCell"
+        let groupedToDoCellIdentifier = "ToDoGroupTableViewCell"
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "M/d/yy"
         //dateFormatter.dateFormat = "M/d/yy, h:mm a"
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: dateCellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
             fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
         }
         
@@ -89,6 +93,13 @@ class ToDoListTableViewController: UITableViewController {
         
         cell.toDoDate = dateFormatter.date(from: toDoDate)!
         cell.toDoDateWeekDayLabel.text = toDoDate
+        cell.toDoTableView.reloadData()
+        
+        for toDo in toDos {
+            if toDo.workDate == cell.toDoDate {
+                cell.toDos.append(toDo)
+            }
+        }
         /*let toDo1 = ToDo(taskName: "Test", taskDescription: "Test Desc", workDate: Date(), estTime: "Test Est", dueDate: Date())
         let toDo2 = ToDo(taskName: "Test2", taskDescription: "Test Desc2", workDate: Date(), estTime: "Test Est2", dueDate: Date())
         let toDo3 = ToDo(taskName: "Test3", taskDescription: "Test Desc3", workDate: Date(), estTime: "Test Est3", dueDate: Date())
@@ -101,7 +112,7 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 62
+        return 62 + 100
     }
     
     // MARK: - Actions
@@ -149,7 +160,7 @@ class ToDoListTableViewController: UITableViewController {
 
     
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    /*override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             toDos.remove(at: indexPath.row)
@@ -158,7 +169,7 @@ class ToDoListTableViewController: UITableViewController {
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
-    }
+    }*/
     
 
     /*

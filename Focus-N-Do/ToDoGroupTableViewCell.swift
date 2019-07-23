@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ToDoGroupTableViewCell: UITableViewCell {
+class ToDoGroupTableViewCell: UITableViewCell, UITableViewDelegate {
     /*var toDos = [ToDo]()
     var toDoSubMenuTable: UITableView?*/
     
