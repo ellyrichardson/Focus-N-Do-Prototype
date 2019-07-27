@@ -14,10 +14,16 @@ class ToDoListTableViewController: UITableViewController {
     // MARK: - Properties
     var toDos = [ToDo]()
     var toDoDateGroup = [String]()
+    var matchedToDoCount: Int = 0
     //var savedToDos = [ToDo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 62
+        tableView.rowHeight = UITableView.automaticDimension
         
         // If there are saved ToDos, load them
         if let savedToDos = loadToDos() {
@@ -56,35 +62,14 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        /*
-        // Table view cells are reused and should be dequeued using a cell identifier.
-        let cellIdentifier = "ToDoTableViewCell"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "M/d/yy, h:mm a"
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
-            fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
-        }
-        
-        // Fetches the appropriate toDo for the data source layout.
-        let toDo = toDos[indexPath.row]
-        
-        cell.taskNameLabel.text = toDo.taskName;
-        cell.workDateLabel.text = dateFormatter.string(from: toDo.workDate);
-        cell.estTimeLabel.text = toDo.estTime;
-        cell.dueDateLabel.text = dateFormatter.string(from: toDo.dueDate);
-
-        return cell
-         */
         
         // Table view cells are reused and should be dequeued using a cell identifier.
         let dateCellIdentifier = "ToDoTableViewCell"
-        let groupedToDoCellIdentifier = "ToDoGroupTableViewCell"
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "M/d/yy"
         //dateFormatter.dateFormat = "M/d/yy, h:mm a"
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: dateCellIdentifier, for: indexPath) as? ToDoTableViewCell  else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: dateCellIdentifier, for: indexPath) as? ToDoTableViewCell else {
             fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
         }
         
@@ -93,27 +78,27 @@ class ToDoListTableViewController: UITableViewController {
         
         cell.toDoDate = dateFormatter.date(from: toDoDate)!
         cell.toDoDateWeekDayLabel.text = toDoDate
-        cell.toDoTableView.reloadData()
-        
         for toDo in toDos {
-            if toDo.workDate == cell.toDoDate {
+            //print(dateFormatter.string(from: toDo.workDate))
+            //print("cell.ToDoDate Below:")
+            //print(toDoDate)
+            if dateFormatter.string(from: toDo.workDate) == toDoDate {
                 cell.toDos.append(toDo)
             }
         }
-        /*let toDo1 = ToDo(taskName: "Test", taskDescription: "Test Desc", workDate: Date(), estTime: "Test Est", dueDate: Date())
-        let toDo2 = ToDo(taskName: "Test2", taskDescription: "Test Desc2", workDate: Date(), estTime: "Test Est2", dueDate: Date())
-        let toDo3 = ToDo(taskName: "Test3", taskDescription: "Test Desc3", workDate: Date(), estTime: "Test Est3", dueDate: Date())
         
-        cell.toDos.append(toDo1!)
-        cell.toDos.append(toDo2!)
-        cell.toDos.append(toDo3!)*/
+        matchedToDoCount = cell.toDos.count
+        //cell.toDoTableView.reloadData()
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 62 + 100
-    }
+    /*override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let multiplier = matchedToDoCount * 62
+        print(multiplier)
+        return CGFloat(62 + multiplier)
+        //return UITableView.automaticDimension
+    }*/
     
     // MARK: - Actions
     @IBAction func unwindToToDoList(sender: UIStoryboardSegue) {
