@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Properties
@@ -84,8 +85,10 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            let toDoToBeDeleted = toDos[indexPath.row]
             toDos.remove(at: indexPath.row)
             //saveToDos()
+            saveToDos(toDoToBeDeleted: toDoToBeDeleted)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -93,6 +96,33 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     }
     
     // MARK: - Private Methods
+    
+    private func saveToDos(toDoToBeDeleted: ToDo?) {
+        
+        if var savedToDos = loadToDos() {
+            if toDoToBeDeleted != nil {
+                while let toDoIdToDelete = savedToDos.index(of: toDoToBeDeleted!) {
+                    savedToDos.remove(at: toDoIdToDelete)
+                }
+                let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(savedToDos, toFile: ToDo.ArchiveURL.path)
+                if isSuccessfulSave {
+                    os_log("A ToDo was deleted and ToDos is successfully saved.", log: OSLog.default, type: .debug)
+                }
+            } else {
+                let lastToDosItem: Int = toDos.count - 1
+                savedToDos.append(toDos[lastToDosItem])
+                let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(savedToDos, toFile: ToDo.ArchiveURL.path)
+                if isSuccessfulSave {
+                    os_log("A ToDo was deleted and ToDos is successfully saved.", log: OSLog.default, type: .debug)
+                }
+            }
+        } else {
+            let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
+            if isSuccessfulSave {
+                os_log("A ToDo was deleted and ToDos is successfully saved.", log: OSLog.default, type: .debug)
+            }
+        }
+    }
     
     private func loadToDos() -> [ToDo]? {
         print("loadToDos()")
