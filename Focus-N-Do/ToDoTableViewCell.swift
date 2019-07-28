@@ -113,13 +113,13 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
                 savedToDos.append(toDos[lastToDosItem])
                 let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(savedToDos, toFile: ToDo.ArchiveURL.path)
                 if isSuccessfulSave {
-                    os_log("A ToDo was deleted and ToDos is successfully saved.", log: OSLog.default, type: .debug)
+                    os_log("A ToDo was added and ToDos is successfully saved.", log: OSLog.default, type: .debug)
                 }
             }
         } else {
             let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
             if isSuccessfulSave {
-                os_log("A ToDo was deleted and ToDos is successfully saved.", log: OSLog.default, type: .debug)
+                os_log("The initial ToDo is successfully saved.", log: OSLog.default, type: .debug)
             }
         }
     }
