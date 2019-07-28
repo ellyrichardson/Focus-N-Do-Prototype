@@ -25,6 +25,10 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     
     let cellIdentifier = "ToDoGroupTableViewCell"
     
+    override var intrinsicContentSize: CGSize {
+        return self.intrinsicContentSize
+    }
+    
     // * -- NOTTEST
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -75,6 +79,17 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         cell.dueDateLabel.text = dueDateFormatter.string(from: toDo.dueDate)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            toDos.remove(at: indexPath.row)
+            //saveToDos()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
     }
     
     // MARK: - Private Methods

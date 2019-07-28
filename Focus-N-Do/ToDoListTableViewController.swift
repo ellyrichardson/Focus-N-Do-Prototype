@@ -22,8 +22,6 @@ class ToDoListTableViewController: UITableViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.estimatedRowHeight = 62
-        tableView.rowHeight = UITableView.automaticDimension
         
         // If there are saved ToDos, load them
         if let savedToDos = loadToDos() {
@@ -31,6 +29,9 @@ class ToDoListTableViewController: UITableViewController {
         }
         groupToDosAccordingToDates()
         sortToDoGroupDates()
+        
+        //tableView.estimatedRowHeight = 62
+        //tableView.rowHeight = UITableView.automaticDimension
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -78,6 +79,7 @@ class ToDoListTableViewController: UITableViewController {
         
         cell.toDoDate = dateFormatter.date(from: toDoDate)!
         cell.toDoDateWeekDayLabel.text = toDoDate
+        cell.toDoDateWeekDayLabel.backgroundColor = UIColor.green
         for toDo in toDos {
             //print(dateFormatter.string(from: toDo.workDate))
             //print("cell.ToDoDate Below:")
@@ -93,12 +95,13 @@ class ToDoListTableViewController: UITableViewController {
         return cell
     }
     
-    /*override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let multiplier = matchedToDoCount * 62
-        print(multiplier)
-        return CGFloat(62 + multiplier)
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        //let multiplier = matchedToDoCount * 62
+        //print(multiplier)
+        //return CGFloat(62 + multiplier)
         //return UITableView.automaticDimension
-    }*/
+        return 150
+    }
     
     // MARK: - Actions
     @IBAction func unwindToToDoList(sender: UIStoryboardSegue) {
