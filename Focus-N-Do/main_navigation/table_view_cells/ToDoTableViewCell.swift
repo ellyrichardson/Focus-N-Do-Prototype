@@ -10,17 +10,13 @@ import UIKit
 import os.log
 
 class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
+    
     // MARK: - Properties
-    /*@IBOutlet weak var taskNameLabel: UILabel!
-    @IBOutlet weak var workDateLabel: UILabel!
-    @IBOutlet weak var estTimeLabel: UILabel!
-    @IBOutlet weak var dueDateLabel: UILabel!*/
     
     @IBOutlet weak var toDoDateWeekDayLabel: UILabel!
     @IBOutlet weak var toDoTableView: UITableView!
     
     var toDos = [ToDo]()
-    //var toDoSubMenuTable: UITableView?
     let dateFormatter = DateFormatter()
     var toDoDate = Date()
     
@@ -30,12 +26,10 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         return self.intrinsicContentSize
     }
     
-    // * -- NOTTEST
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
-        //print("AWAKEFROMBIB")
         dateFormatter.dateFormat = "M/d/yy, h:mm a"
         sortToDosByWorkDate()
         //reloadTableViewData()
@@ -61,7 +55,6 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         let cellIdentifier = "ToDoGroupTableViewCell"
         let dueDateFormatter = DateFormatter()
         let workDateFormatter = DateFormatter()
-        //dateFormatter.dateFormat = "M/d/yy"
         dueDateFormatter.dateFormat = "M/d/yy, h:mm a"
         workDateFormatter.dateFormat = "h:mm a"
         
@@ -72,8 +65,6 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         // Fetches the appropriate toDo for the data source layout.
         let toDo = toDos[indexPath.row]
         
-        //print("Inner Cell Dataaedad");
-        
         cell.taskNameLabel.text = toDo.taskName
         cell.workDateLabel.text = workDateFormatter.string(from: toDo.workDate)
         cell.estTimeLabel.text = toDo.estTime
@@ -82,14 +73,22 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            // Delete the row from the data source of the current tableViewCell
             let toDoToBeDeleted = toDos[indexPath.row]
+            //tableView.beginUpdates()
             toDos.remove(at: indexPath.row)
-            //saveToDos()
             saveToDos(toDoToBeDeleted: toDoToBeDeleted)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
+            
+            //tableView.endUpdates()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -98,16 +97,23 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     // MARK: - Private Methods
     
     private func saveToDos(toDoToBeDeleted: ToDo?) {
-        
+        // TODO: Refactor the deletion part of this function to be its own delete function
+        // If there are existing toDos, load them
         if var savedToDos = loadToDos() {
+            // If a there is a specific toDo to be deleted after save
             if toDoToBeDeleted != nil {
-                while let toDoIdToDelete = savedToDos.index(of: toDoToBeDeleted!) {
+                print("toDoToBeDeleted is not nil")
+                print(savedToDos)
+                /*while let toDoIdToDelete = savedToDos.index(of: toDoToBeDeleted!) {
+                    print("Index Exists in savedToDos")
                     savedToDos.remove(at: toDoIdToDelete)
-                }
+                }*/
+                savedToDos.removeAll{$0 == toDoToBeDeleted}
                 let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(savedToDos, toFile: ToDo.ArchiveURL.path)
                 if isSuccessfulSave {
                     os_log("A ToDo was deleted and ToDos is successfully saved.", log: OSLog.default, type: .debug)
                 }
+            // If there is no specific toDo to be deleted
             } else {
                 let lastToDosItem: Int = toDos.count - 1
                 savedToDos.append(toDos[lastToDosItem])
@@ -116,6 +122,7 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
                     os_log("A ToDo was added and ToDos is successfully saved.", log: OSLog.default, type: .debug)
                 }
             }
+        // If this is the initial save and no other toDos exists
         } else {
             let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
             if isSuccessfulSave {
@@ -134,7 +141,6 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     }
     
     private func sortToDosByWorkDate() {
-        //print("CALLING")
         toDos = toDos.sorted(by: {
             $1.workDate > $0.workDate
         })

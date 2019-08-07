@@ -14,7 +14,7 @@ class ToDoListTableViewController: UITableViewController {
     // MARK: - Properties
     var toDos = [ToDo]()
     var toDoDateGroup = [String]()
-    var matchedToDoCount: Int = 0
+    //var matchedToDoCount: Int = 0
     //var savedToDos = [ToDo]()
     
     override func viewDidLoad() {
@@ -89,7 +89,9 @@ class ToDoListTableViewController: UITableViewController {
             }
         }
         
-        matchedToDoCount = cell.toDos.count
+        //matchedToDoCount = cell.toDos.count
+        
+        
         //cell.toDoTableView.reloadData()
         
         return cell
