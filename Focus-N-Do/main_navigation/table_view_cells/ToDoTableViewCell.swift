@@ -9,8 +9,7 @@
 import UIKit
 import os.log
 
-class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
-    
+class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate, ToDoTableObservable {
     // MARK: - Properties
     
     @IBOutlet weak var toDoDateWeekDayLabel: UILabel!
@@ -19,6 +18,11 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     var toDos = [ToDo]()
     let dateFormatter = DateFormatter()
     var toDoDate = Date()
+    
+    
+    var deletedToDo: ToDo?
+    var somethingWasDeleted: Bool?
+    private var observers: [ToDoTableObserver] = []
     
     let cellIdentifier = "ToDoGroupTableViewCell"
     
@@ -41,6 +45,22 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         // Configure the view for the selected state
         toDoTableView.delegate = self
         toDoTableView.dataSource = self
+    }
+    
+    func addObserver(observer: ToDoTableObserver) {
+        if observers.contains(where: {$0 === observer}) == false {
+            observers.append(observer)
+        }
+    }
+    
+    func removeObserver(observer: ToDoTableObserver) {
+        if let index = observers.index(where: {$0 === observer}) {
+            observers.remove(at: index)
+        }
+    }
+    
+    func notifyObservers() {
+        <#code#>
     }
     
     // MARK: - Table view data source
@@ -144,5 +164,12 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         toDos = toDos.sorted(by: {
             $1.workDate > $0.workDate
         })
-     }
+    }
+    
+    private func getToDoTableConnectionEvent() -> ToDoTableConnectionEvent? {
+        var event: ToDoTableConnectionEvent?
+        if let deletedToDo = self.deletedToDo, let somethingWasDeleted = self.somethingWasDeleted {
+            // TODO: Add ConnectionState something for this function
+        }
+    }
 }
