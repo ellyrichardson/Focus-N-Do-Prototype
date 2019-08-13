@@ -8,5 +8,5 @@
 
 // Observer pattern is using push mechanism
 protocol ToDoTableObserver: class {
-    func notifyChangedConnection(toDoTable: ToDoTableObservable, event: ToDoTableConnectionEvent)
+    func notifyChangedToDoTableRow(toDoTable: ToDoTableObservable, event: ToDoTableRowEvent)
 }

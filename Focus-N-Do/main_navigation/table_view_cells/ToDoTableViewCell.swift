@@ -60,7 +60,10 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     }
     
     func notifyObservers() {
-        <#code#>
+        let event = getToDoTableConnectionEvent()
+        observers.forEach { (observer) in
+            observer.notifyChangedToDoTableRow(toDoTable: self, event: event!)
+        }
     }
     
     // MARK: - Table view data source
@@ -105,6 +108,7 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
             //tableView.beginUpdates()
             toDos.remove(at: indexPath.row)
             saveToDos(toDoToBeDeleted: toDoToBeDeleted)
+            notifyObservers()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
             
@@ -128,6 +132,8 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
                     print("Index Exists in savedToDos")
                     savedToDos.remove(at: toDoIdToDelete)
                 }*/
+                self.deletedToDo = toDoToBeDeleted
+                self.somethingWasDeleted = true
                 savedToDos.removeAll{$0 == toDoToBeDeleted}
                 let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(savedToDos, toFile: ToDo.ArchiveURL.path)
                 if isSuccessfulSave {
@@ -166,10 +172,17 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         })
     }
     
-    private func getToDoTableConnectionEvent() -> ToDoTableConnectionEvent? {
-        var event: ToDoTableConnectionEvent?
+    private func getToDoTableConnectionEvent() -> ToDoTableRowEvent? {
+        var event: ToDoTableRowEvent?
         if let deletedToDo = self.deletedToDo, let somethingWasDeleted = self.somethingWasDeleted {
-            // TODO: Add ConnectionState something for this function
+            // TODO: Add ConnectionState something for this function (MAYBE?)
+            event = ToDoTableRowData(deletedToDo: deletedToDo, somethingWasDeleted: somethingWasDeleted)
         }
+        return event
     }
+}
+
+fileprivate struct ToDoTableRowData: ToDoTableRowEvent {
+    var deletedToDo: ToDo
+    var somethingWasDeleted: Bool
 }

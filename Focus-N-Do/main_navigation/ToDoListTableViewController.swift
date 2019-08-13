@@ -74,6 +74,8 @@ class ToDoListTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
         }
         
+        //let pushController = ToDoTablePushController(withObservable: cell)
+        
         // Fetches the appropriate toDo for the data source layout.
         let toDoDate = toDoDateGroup[indexPath.row]
         
@@ -258,5 +260,4 @@ class ToDoListTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
-
 }

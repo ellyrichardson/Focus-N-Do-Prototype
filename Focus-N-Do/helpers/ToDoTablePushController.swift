@@ -22,7 +22,7 @@ class ToDoTablePushController: ToDoTableObserver {
         self.observable?.removeObserver(observer: self)
     }
     
-    func notifyChangedConnection(toDoTable: ToDoTableObservable, event: ToDoTableConnectionEvent) {
+    func notifyChangedToDoTableRow(toDoTable: ToDoTableObservable, event: ToDoTableRowEvent) {
         self.deletedToDo = event.deletedToDo
         self.somethingWasDeleted = event.somethingWasDeleted
         

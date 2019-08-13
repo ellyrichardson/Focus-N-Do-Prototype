@@ -6,7 +6,7 @@
 //  Copyright © 2019 EllyRichardson. All rights reserved.
 //
 
-protocol ToDoTableConnectionEvent {
+protocol ToDoTableRowEvent {
     var deletedToDo: ToDo { get }
     var somethingWasDeleted: Bool { get }
 }
