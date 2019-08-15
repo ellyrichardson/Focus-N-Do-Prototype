@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate, ToDoTableObservable {
+class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Properties
     
     @IBOutlet weak var toDoDateWeekDayLabel: UILabel!
@@ -20,9 +20,9 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
     var toDoDate = Date()
     
     
-    var deletedToDo: ToDo?
+    /*var deletedToDo: ToDo?
     var somethingWasDeleted: Bool?
-    private var observers: [ToDoTableObserver] = []
+    private var observers: [ToDoTableObserver] = []*/
     
     let cellIdentifier = "ToDoGroupTableViewCell"
     
@@ -47,7 +47,7 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         toDoTableView.dataSource = self
     }
     
-    func addObserver(observer: ToDoTableObserver) {
+    /*func addObserver(observer: ToDoTableObserver) {
         if observers.contains(where: {$0 === observer}) == false {
             observers.append(observer)
         }
@@ -64,7 +64,7 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         observers.forEach { (observer) in
             observer.notifyChangedToDoTableRow(toDoTable: self, event: event!)
         }
-    }
+    }*/
     
     // MARK: - Table view data source
     
@@ -108,7 +108,7 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
             //tableView.beginUpdates()
             toDos.remove(at: indexPath.row)
             saveToDos(toDoToBeDeleted: toDoToBeDeleted)
-            notifyObservers()
+            //notifyObservers()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
             
@@ -132,8 +132,8 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
                     print("Index Exists in savedToDos")
                     savedToDos.remove(at: toDoIdToDelete)
                 }*/
-                self.deletedToDo = toDoToBeDeleted
-                self.somethingWasDeleted = true
+                //self.deletedToDo = toDoToBeDeleted
+                //self.somethingWasDeleted = true
                 savedToDos.removeAll{$0 == toDoToBeDeleted}
                 let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(savedToDos, toFile: ToDo.ArchiveURL.path)
                 if isSuccessfulSave {
@@ -172,17 +172,17 @@ class ToDoTableViewCell: UITableViewCell, UITableViewDataSource, UITableViewDele
         })
     }
     
-    private func getToDoTableConnectionEvent() -> ToDoTableRowEvent? {
+    /*private func getToDoTableConnectionEvent() -> ToDoTableRowEvent? {
         var event: ToDoTableRowEvent?
         if let deletedToDo = self.deletedToDo, let somethingWasDeleted = self.somethingWasDeleted {
             // TODO: Add ConnectionState something for this function (MAYBE?)
             event = ToDoTableRowData(deletedToDo: deletedToDo, somethingWasDeleted: somethingWasDeleted)
         }
         return event
-    }
+    }*/
 }
 
-fileprivate struct ToDoTableRowData: ToDoTableRowEvent {
+/*fileprivate struct ToDoTableRowData: ToDoTableRowEvent {
     var deletedToDo: ToDo
     var somethingWasDeleted: Bool
-}
+}*/

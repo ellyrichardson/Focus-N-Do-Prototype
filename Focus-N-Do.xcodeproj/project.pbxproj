@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		21261FED22D06B0E009C12F8 /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261FEC22D06B0E009C12F8 /* ToDoTableViewCell.swift */; };
+		2128D048230505B70024ABAA /* ToDoDateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2128D047230505B70024ABAA /* ToDoDateSection.swift */; };
 		214A35B622FA89D100136D25 /* ToDoTableObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214A35B522FA89D100136D25 /* ToDoTableObservable.swift */; };
 		214A35B822FA89EA00136D25 /* ToDoTableObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214A35B722FA89EA00136D25 /* ToDoTableObserver.swift */; };
 		214A35BF22FA8DD800136D25 /* ToDoTableConnectionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214A35BE22FA8DD800136D25 /* ToDoTableConnectionEvent.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		21261FEC22D06B0E009C12F8 /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
+		2128D047230505B70024ABAA /* ToDoDateSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDateSection.swift; sourceTree = "<group>"; };
 		214A35B522FA89D100136D25 /* ToDoTableObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableObservable.swift; sourceTree = "<group>"; };
 		214A35B722FA89EA00136D25 /* ToDoTableObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableObserver.swift; sourceTree = "<group>"; };
 		214A35BE22FA8DD800136D25 /* ToDoTableConnectionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableConnectionEvent.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				21BD697222C5A6D40033A10A /* ToDo.swift */,
+				2128D047230505B70024ABAA /* ToDoDateSection.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 			files = (
 				214A35C122FA910600136D25 /* ToDoTablePushController.swift in Sources */,
 				214A35B822FA89EA00136D25 /* ToDoTableObserver.swift in Sources */,
+				2128D048230505B70024ABAA /* ToDoDateSection.swift in Sources */,
 				2165F0D322DAEA4100061A2C /* ToDoGroupTableViewCell.swift in Sources */,
 				214A35BF22FA8DD800136D25 /* ToDoTableConnectionEvent.swift in Sources */,
 				21BD697322C5A6D40033A10A /* ToDo.swift in Sources */,

@@ -1,0 +1,23 @@
+//
+//  ToDoMonthSection.swift
+//  Focus-N-Do
+//
+//  Created by Elly Richardson on 8/14/19.
+//  Copyright © 2019 EllyRichardson. All rights reserved.
+//
+
+import UIKit
+
+struct ToDoDateSection : Comparable {
+    var toDoDate: Date
+    var toDos: [ToDo]
+    
+    static func < (lhs: ToDoDateSection, rhs: ToDoDateSection) -> Bool {
+        return lhs.toDoDate < rhs.toDoDate
+    }
+    
+    // Do I really need this??
+    static func == (lhs: ToDoDateSection, rhs: ToDoDateSection) -> Bool {
+        return lhs.toDoDate == rhs.toDoDate
+    }
+}

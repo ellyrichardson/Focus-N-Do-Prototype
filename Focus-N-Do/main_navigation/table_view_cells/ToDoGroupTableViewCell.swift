@@ -13,11 +13,15 @@ class ToDoGroupTableViewCell: UITableViewCell, UITableViewDelegate {
     var toDoSubMenuTable: UITableView?*/
     
     // MARK: - Properties
-    
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var workDateLabel: UILabel!
     @IBOutlet weak var estTimeLabel: UILabel!
     @IBOutlet weak var dueDateLabel: UILabel!
+    
+    /*@IBOutlet weak var taskNameLabel: UILabel!
+    @IBOutlet weak var workDateLabel: UILabel!
+    @IBOutlet weak var estTimeLabel: UILabel!
+    @IBOutlet weak var dueDateLabel: UILabel!*/
     
     override func awakeFromNib() {
         super.awakeFromNib()
