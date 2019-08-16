@@ -27,27 +27,31 @@ class ToDoListTableViewController: UITableViewController {
             toDos = savedToDos
         }
         
-        let toDoGroups = Dictionary(grouping: self.toDos) { (toDo) in
+        /*let toDoGroups = Dictionary(grouping: self.toDos) { (toDo) in
             return workDateOfToDo(date: toDo.workDate)
         }
         
         self.toDoSections = toDoGroups.map { (key, values) in
             return ToDoDateSection(toDoDate: key, toDos: values)
-        }
+        }*/
+        addToDoInAppropriateSection()
         sortToDoSections()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        /*let toDoGroups = Dictionary(grouping: self.toDos) { (toDo) in
+            return workDateOfToDo(date: toDo.workDate)
+        }
+        
+        self.toDoSections = toDoGroups.map { (key, values) in
+            return ToDoDateSection(toDoDate: key, toDos: values)
+        }*/
+        addToDoInAppropriateSection()
+        
         sortToDoSections()
         reloadTableViewData()
-        
-        //savedToDos = loadToDos()!
-        
-        /*groupToDosAccordingToDates()
-        sortToDoGroupDates()
-        reloadTableViewData()*/
     }
 
     // MARK: - Table view data source
@@ -133,36 +137,6 @@ class ToDoListTableViewController: UITableViewController {
         }
     }
     
-    
-    
-    // Override to support editing the table view.
-    /*override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     toDos.remove(at: indexPath.row)
-     saveToDos()
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }*/
-    
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
     // MARK: - Actions
     @IBAction func unwindToToDoList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? ToDoItemTableViewController, let toDo = sourceViewController.toDo {
@@ -180,6 +154,8 @@ class ToDoListTableViewController: UITableViewController {
                 // Add a new toDo
                 //let newIndexPath: IndexPath = IndexPath(row: toDos.count, section: 0)
                 toDos.append(toDo)
+                //tableView.insertRows(at: <#T##[IndexPath]#>, with: <#T##UITableView.RowAnimation#>)
+                //reloadTableViewData()
                 //tableView.insertRows(at: [newIndexPath], with: .automatic)
                 
                 /*var newIndexPath: IndexPath
@@ -231,16 +207,8 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     // MARK: - Private Methods
+    
     private func saveToDos() {
-        //sortToDosByWorkDate()
-        /*var toDosToBeSaved = [ToDo]()
-        for toDoSection in toDoSections {
-            //let toDoBuffer: [ToDo] = toDoSection.toDos
-            //toDosToBeSaved.append(toDoSection.toDos)
-            for toDo in toDoSection.toDos {
-                toDosToBeSaved.append(toDo)
-            }
-        }*/
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("ToDos successfully saved.", log: OSLog.default, type: .debug)
@@ -261,35 +229,17 @@ class ToDoListTableViewController: UITableViewController {
         }
     }
     
-    /*private func sortToDosByWorkDate() {
-        toDos = toDos.sorted(by: {
-            $1.workDate > $0.workDate
-        })
-    }*/
-    
-    /*private func groupToDosAccordingToDates() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "M/d/yy"
-        //dateFormatter.dateFormat = "M/d/yy, h:mm a"
-        
-        var newIndexPath: IndexPath
-        
-        for toDo in toDos {
-            print(toDo.taskName)
-            let chosenWorkDate = dateFormatter.string(from: toDo.workDate)
-            if !toDoDateGroup.contains(chosenWorkDate) {
-                print(chosenWorkDate)
-                newIndexPath = IndexPath(row: toDoDateGroup.count, section: 0)
-                toDoDateGroup.append(chosenWorkDate)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
+    private func addToDoInAppropriateSection() {
+        let toDoGroups = Dictionary(grouping: self.toDos) { (toDo) in
+            return workDateOfToDo(date: toDo.workDate)
         }
-    }*/
+        
+        self.toDoSections = toDoGroups.map { (key, values) in
+            return ToDoDateSection(toDoDate: key, toDos: values)
+        }
+    }
     
     private func sortToDoSections() {
-        /*toDoDateGroup = toDoDateGroup.sorted(by: {
-            $1 > $0
-        })*/
         toDoSections = toDoSections.sorted(by: {
             $1 > $0
         })
@@ -301,8 +251,8 @@ class ToDoListTableViewController: UITableViewController {
         }
     }
     
-    
     // MARK: - Fileprivate Methods
+    
     fileprivate func workDateOfToDo(date: Date) -> Date {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.month, .day, .year], from: date)
