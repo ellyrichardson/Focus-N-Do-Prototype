@@ -66,11 +66,18 @@ class ToDoListTableViewController: UITableViewController {
     
     // Creates the date of a ToDo as a section header.
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let toDoSection = self.toDoSections[section]
-        let toDoDate = toDoSection.toDoDate
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM dd, yyyy"
-        return dateFormatter.string(from: toDoDate)
+        // Have section header if section is not empty.
+        if self.tableView(tableView, numberOfRowsInSection: section) > 0 {
+            let toDoSection = self.toDoSections[section]
+            let toDoDate = toDoSection.toDoDate
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMMM dd, yyyy"
+            return dateFormatter.string(from: toDoDate)
+        }
+        // Remove header if section is empty
+        else {
+            return nil
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,13 +118,16 @@ class ToDoListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source of the current toDoSection
             let toDoToBeDeleted = toDoSections[indexPath.section].toDos[indexPath.row]
+            
+            // Delete the row from the current toDoSection
             toDoSections[indexPath.section].toDos.remove(at: indexPath.row)
-            // To delete ToDo from the actual ToDos data, not just toDoSection
+            
+            // Delete ToDo from the actual ToDos data, not just toDoSection
             deleteToDoFromSections(toDoToBeDeleted: toDoToBeDeleted)
             saveToDos()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
