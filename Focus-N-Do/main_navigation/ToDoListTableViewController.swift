@@ -112,7 +112,10 @@ class ToDoListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source of the current toDoSection
+            let toDoToBeDeleted = toDoSections[indexPath.section].toDos[indexPath.row]
             toDoSections[indexPath.section].toDos.remove(at: indexPath.row)
+            // To delete ToDo from the actual ToDos data, not just toDoSection
+            deleteToDoFromSections(toDoToBeDeleted: toDoToBeDeleted)
             saveToDos()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
@@ -220,15 +223,15 @@ class ToDoListTableViewController: UITableViewController {
     // MARK: - Private Methods
     private func saveToDos() {
         //sortToDosByWorkDate()
-        var toDosToBeSaved = [ToDo]()
+        /*var toDosToBeSaved = [ToDo]()
         for toDoSection in toDoSections {
             //let toDoBuffer: [ToDo] = toDoSection.toDos
             //toDosToBeSaved.append(toDoSection.toDos)
             for toDo in toDoSection.toDos {
                 toDosToBeSaved.append(toDo)
             }
-        }
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDosToBeSaved, toFile: ToDo.ArchiveURL.path)
+        }*/
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("ToDos successfully saved.", log: OSLog.default, type: .debug)
         } else {
@@ -238,6 +241,14 @@ class ToDoListTableViewController: UITableViewController {
     
     private func loadToDos() -> [ToDo]? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: ToDo.ArchiveURL.path) as? [ToDo]
+    }
+    
+    private func deleteToDoFromSections(toDoToBeDeleted: ToDo) {
+        if let index = toDos.index(of: toDoToBeDeleted) {
+            let forDebugging: String = toDos[index].taskName
+            toDos.remove(at: index)
+            os_log("%@ task was deleted.", log: OSLog.default, type: .debug, forDebugging)
+        }
     }
     
     /*private func sortToDosByWorkDate() {
