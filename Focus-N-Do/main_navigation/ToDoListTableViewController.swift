@@ -15,8 +15,6 @@ class ToDoListTableViewController: UITableViewController {
     var toDos = [ToDo]()
     var toDoDateGroup = [String]()
     var toDoSections = [ToDoDateSection]()
-    //var matchedToDoCount: Int = 0
-    //var savedToDos = [ToDo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +34,6 @@ class ToDoListTableViewController: UITableViewController {
         self.toDoSections = toDoGroups.map { (key, values) in
             return ToDoDateSection(toDoDate: key, toDos: values)
         }
-        //groupToDosAccordingToDates()
-        //sortToDoGroupDates()
         sortToDoSections()
     }
     
@@ -103,28 +99,22 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
+        return 51
     }
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
+        
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source of the current tableViewCell
-            //let toDoToBeDeleted = toDos[indexPath.row]
-            //tableView.beginUpdates()
-            toDos.remove(at: indexPath.row)
-            //saveToDos(toDoToBeDeleted: toDoToBeDeleted)
-            //notifyObservers()
+            // Delete the row from the data source of the current toDoSection
+            toDoSections[indexPath.section].toDos.remove(at: indexPath.row)
+            saveToDos()
             tableView.deleteRows(at: [indexPath], with: .fade)
-            //tableView.endUpdates()
-            //tableView.reloadData()
-            
-            //tableView.endUpdates()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -230,7 +220,15 @@ class ToDoListTableViewController: UITableViewController {
     // MARK: - Private Methods
     private func saveToDos() {
         //sortToDosByWorkDate()
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDos, toFile: ToDo.ArchiveURL.path)
+        var toDosToBeSaved = [ToDo]()
+        for toDoSection in toDoSections {
+            //let toDoBuffer: [ToDo] = toDoSection.toDos
+            //toDosToBeSaved.append(toDoSection.toDos)
+            for toDo in toDoSection.toDos {
+                toDosToBeSaved.append(toDo)
+            }
+        }
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(toDosToBeSaved, toFile: ToDo.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("ToDos successfully saved.", log: OSLog.default, type: .debug)
         } else {
