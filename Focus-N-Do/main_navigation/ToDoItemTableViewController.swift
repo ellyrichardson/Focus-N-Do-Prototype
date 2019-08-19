@@ -10,7 +10,7 @@ import UIKit
 import os.log
 
 // For the individual tables in the view
-struct TaskItemSections {
+/*struct TaskItemSections {
     var name = String()
     var collapsed = Bool()
     
@@ -18,7 +18,7 @@ struct TaskItemSections {
         self.name = name
         self.collapsed = collapsed
     }
-}
+}*/
 
 class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
     
@@ -37,7 +37,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
     
     var toDo: ToDo?
     //var toDoDate: ToDoDate?
-    var taskItemsSections = [TaskItemSections]()
+    var taskItemsSections = [TableItemSection]()
     private var chosenWorkDate: Date
     private var chosenDueDate: Date
     
@@ -58,10 +58,10 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         dateFormatter.dateFormat = "M/d/yy, h:mm a"
 
         taskItemsSections = [
-            TaskItemSections(name: "Task Details"),
-            TaskItemSections(name: "Work Date"),
-            TaskItemSections(name: "Estimated Time"),
-            TaskItemSections(name: "Due Date"),
+            TableItemSection(name: "Task Details"),
+            TableItemSection(name: "Work Date"),
+            TableItemSection(name: "Estimated Time"),
+            TableItemSection(name: "Due Date"),
         ]
         
         // Handles the changes for the labels through user input

@@ -219,6 +219,7 @@
                                     <outlet property="estTimeLabel" destination="CSf-N7-R26" id="WQn-58-hXW"/>
                                     <outlet property="taskNameLabel" destination="GfJ-Cl-xf1" id="CWz-HJ-4jh"/>
                                     <outlet property="workDateLabel" destination="n47-iu-Xdn" id="8Kb-f4-V70"/>
+                                    <segue destination="kpK-e4-3nh" kind="show" identifier="ShowToDoItemDetails" id="xZb-no-ej2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -272,4 +273,7 @@
             <point key="canvasLocation" x="-1208" y="485"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="xZb-no-ej2"/>
+    </inferredMetricsTieBreakers>
 </document>

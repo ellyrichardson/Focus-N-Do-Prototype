@@ -11,6 +11,7 @@ import UIKit
 struct ToDoDateSection : Comparable {
     var toDoDate: Date
     var toDos: [ToDo]
+    var collapsed: Bool
     
     static func < (lhs: ToDoDateSection, rhs: ToDoDateSection) -> Bool {
         return lhs.toDoDate < rhs.toDoDate

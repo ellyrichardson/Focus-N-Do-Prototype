@@ -15,6 +15,9 @@ class ToDoListTableViewController: UITableViewController {
     var toDos = [ToDo]()
     var toDoDateGroup = [String]()
     var toDoSections = [ToDoDateSection]()
+    var headerSections = [TableItemSection]()
+    
+    private var sectionToBeExpanded: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +30,6 @@ class ToDoListTableViewController: UITableViewController {
             toDos = savedToDos
         }
         
-        /*let toDoGroups = Dictionary(grouping: self.toDos) { (toDo) in
-            return workDateOfToDo(date: toDo.workDate)
-        }
-        
-        self.toDoSections = toDoGroups.map { (key, values) in
-            return ToDoDateSection(toDoDate: key, toDos: values)
-        }*/
         addToDoInAppropriateSection()
         sortToDoSections()
     }
@@ -41,13 +37,6 @@ class ToDoListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        /*let toDoGroups = Dictionary(grouping: self.toDos) { (toDo) in
-            return workDateOfToDo(date: toDo.workDate)
-        }
-        
-        self.toDoSections = toDoGroups.map { (key, values) in
-            return ToDoDateSection(toDoDate: key, toDos: values)
-        }*/
         addToDoInAppropriateSection()
         
         sortToDoSections()
@@ -98,8 +87,8 @@ class ToDoListTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
         }
         
-        let toDoSection = self.toDoSections[indexPath.section]
-        let toDo = toDoSection.toDos[indexPath.row]
+        //let toDoSection = self.toDoSections[indexPath.section]
+        let toDo = self.toDoSections[indexPath.section].toDos[indexPath.row]
         
         cell.taskNameLabel.text = toDo.taskName
         cell.workDateLabel.text = workDateFormatter.string(from: toDo.workDate)
@@ -110,7 +99,17 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 51
+        if indexPath.section == getSectionToBeExpanded() {
+            print("Section To Be Expanded")
+            print(getSectionToBeExpanded())
+            //return 50
+            var toDoSection = toDoSections[indexPath.section]
+            if toDoSection.collapsed {
+                return 51
+            }
+        }
+        return 0
+        //return 51
     }
     
     // Override to support conditional editing of the table view.
@@ -137,42 +136,56 @@ class ToDoListTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UITableViewHeaderFooterView()
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        //tapRecognizer.delegate = (self as! UIGestureRecognizerDelegate)
+        tapRecognizer.numberOfTapsRequired = 1
+        tapRecognizer.numberOfTouchesRequired = 1
+        headerView.addGestureRecognizer(tapRecognizer)
+        
+        // Saves the index of the section's header tapped
+        setSectionToBeExpanded(sectionIndex: section)
+        
+        return headerView
+    }
+    
+    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        print("Tapped")
+        var section = toDoSections[getSectionToBeExpanded()]
+        if section.collapsed {
+            section.collapsed = false
+            print("Section is not Collapsed")
+        }
+        else {
+            section.collapsed = true
+            print("Section is Collapsed")
+        }
+        toDoSections[getSectionToBeExpanded()] = section
+    }
+    
     // MARK: - Actions
     @IBAction func unwindToToDoList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? ToDoItemTableViewController, let toDo = sourceViewController.toDo {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "M/d/yy"
                 // Update an existing ToDo
                 //toDos.append(toDo)
-                toDoDateGroup[selectedIndexPath.row] = dateFormatter.string(from: toDo.workDate)
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                //toDoDateGroup[selectedIndexPath.row] = dateFormatter.string(from: toDo.workDate)
+                //toDoSections[selectedIndexPath.section].toDos[selectedIndexPath.row] = toDo
+                toDos[selectedIndexPath.row] = toDo
+                //tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                tableView.reloadSections(IndexSet(selectedIndexPath), with: UITableView.RowAnimation.automatic)
+                print("Selected INDEX PATH")
+                print(IndexSet(selectedIndexPath).count)
             }
             
             else {
-                // Add a new toDo
-                //let newIndexPath: IndexPath = IndexPath(row: toDos.count, section: 0)
                 toDos.append(toDo)
-                //tableView.insertRows(at: <#T##[IndexPath]#>, with: <#T##UITableView.RowAnimation#>)
-                //reloadTableViewData()
-                //tableView.insertRows(at: [newIndexPath], with: .automatic)
-                
-                /*var newIndexPath: IndexPath
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "M/d/yy"
-                
-                if (toDoDateGroup.isEmpty) {
-                    newIndexPath = IndexPath(row: toDoDateGroup.count, section: 0)
-                    toDoDateGroup.append(dateFormatter.string(from: toDo.workDate))
-                    tableView.insertRows(at: [newIndexPath], with: .automatic)
-                } else {
-                    //groupToDosAccordingToDates()
-                }*/
             }
             
             // Save the ToDos
-            saveToDos()
+            //saveToDos()
         }
     }
 
@@ -199,7 +212,9 @@ class ToDoListTableViewController: UITableViewController {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-            let selectedToDoItem = toDos[indexPath.row]
+            let selectedToDoItem = toDoSections[indexPath.section].toDos[indexPath.row]
+            print("Section + Row")
+            print(toDoSections[indexPath.section].toDos[indexPath.row])
             toDoItemDetailViewController.toDo = selectedToDoItem
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
@@ -234,8 +249,9 @@ class ToDoListTableViewController: UITableViewController {
             return workDateOfToDo(date: toDo.workDate)
         }
         
-        self.toDoSections = toDoGroups.map { (key, values) in
-            return ToDoDateSection(toDoDate: key, toDos: values)
+        self.toDoSections = toDoGroups.map { (arg) -> ToDoDateSection in
+            let (key, values) = arg
+            return ToDoDateSection(toDoDate: key, toDos: values, collapsed: false)
         }
     }
     
@@ -249,6 +265,26 @@ class ToDoListTableViewController: UITableViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    // MARK: - Setters
+    
+    func setSectionToBeExpanded(sectionIndex: Int) {
+        sectionToBeExpanded = sectionIndex
+    }
+    
+    func setHeaderSections(itemSection: TableItemSection) {
+        headerSections.append(itemSection)
+    }
+    
+    // MARK: - Getters
+    
+    func getSectionToBeExpanded() -> Int {
+        return sectionToBeExpanded
+    }
+    
+    func getHeaderSections() -> [TableItemSection] {
+        return headerSections
     }
     
     // MARK: - Fileprivate Methods
