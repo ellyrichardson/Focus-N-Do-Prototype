@@ -15,7 +15,6 @@ class ToDoListTableViewController: UITableViewController {
     var toDos = [ToDo]()
     var toDoDateGroup = [String]()
     var toDoSections = [ToDoDateSection]()
-    var headerSections = [TableItemSection]()
     
     private var sectionToBeExpanded: Int = 0
     
@@ -52,7 +51,6 @@ class ToDoListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        //return toDoDateGroup.count
         let toDoSection = self.toDoSections[section]
         return toDoSection.toDos.count
     }
@@ -99,17 +97,23 @@ class ToDoListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == getSectionToBeExpanded() {
+        /*if indexPath.section == getSectionToBeExpanded() {
             print("Section To Be Expanded")
             print(getSectionToBeExpanded())
             //return 50
-            var toDoSection = toDoSections[indexPath.section]
+            var toDoSection = toDoSections[getSectionToBeExpanded()]
             if toDoSection.collapsed {
                 return 51
             }
+        }*/
+        /*if toDoSections[getSectionToBeExpanded()].collapsed {
+            return 51
+        }*/
+        //return 0
+        if toDoSections[indexPath.section].collapsed {
+            return 51
         }
         return 0
-        //return 51
     }
     
     // Override to support conditional editing of the table view.
@@ -138,30 +142,25 @@ class ToDoListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UITableViewHeaderFooterView()
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        //tapRecognizer.delegate = (self as! UIGestureRecognizerDelegate)
+        let tapRecognizer = HeaderTapGesture(target: self, action: #selector(handleTap))
         tapRecognizer.numberOfTapsRequired = 1
         tapRecognizer.numberOfTouchesRequired = 1
+        tapRecognizer.section = section
         headerView.addGestureRecognizer(tapRecognizer)
-        
-        // Saves the index of the section's header tapped
-        setSectionToBeExpanded(sectionIndex: section)
         
         return headerView
     }
     
-    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
-        print("Tapped")
-        var section = toDoSections[getSectionToBeExpanded()]
-        if section.collapsed {
-            section.collapsed = false
-            print("Section is not Collapsed")
+    @objc func handleTap(gestureRecognizer: HeaderTapGesture, section: Int) {
+        let sectionIndex = (gestureRecognizer.section)
+        if toDoSections[sectionIndex].collapsed {
+            toDoSections[sectionIndex].collapsed = false
         }
         else {
-            section.collapsed = true
-            print("Section is Collapsed")
+            toDoSections[sectionIndex].collapsed = true
         }
-        toDoSections[getSectionToBeExpanded()] = section
+        
+        self.tableView.reloadSections(NSIndexSet(index: sectionIndex) as IndexSet, with: UITableView.RowAnimation.automatic)
     }
     
     // MARK: - Actions
@@ -265,26 +264,6 @@ class ToDoListTableViewController: UITableViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-    }
-    
-    // MARK: - Setters
-    
-    func setSectionToBeExpanded(sectionIndex: Int) {
-        sectionToBeExpanded = sectionIndex
-    }
-    
-    func setHeaderSections(itemSection: TableItemSection) {
-        headerSections.append(itemSection)
-    }
-    
-    // MARK: - Getters
-    
-    func getSectionToBeExpanded() -> Int {
-        return sectionToBeExpanded
-    }
-    
-    func getHeaderSections() -> [TableItemSection] {
-        return headerSections
     }
     
     // MARK: - Fileprivate Methods
