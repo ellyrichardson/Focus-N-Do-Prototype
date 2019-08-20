@@ -92,24 +92,12 @@ class ToDoListTableViewController: UITableViewController {
         cell.workDateLabel.text = workDateFormatter.string(from: toDo.workDate)
         cell.estTimeLabel.text = toDo.estTime
         cell.dueDateLabel.text = "Due: " + dueDateFormatter.string(from: toDo.dueDate)
+        cell.doneCheckBox.isChecked = toDo.doneCheckBox.isChecked
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        /*if indexPath.section == getSectionToBeExpanded() {
-            print("Section To Be Expanded")
-            print(getSectionToBeExpanded())
-            //return 50
-            var toDoSection = toDoSections[getSectionToBeExpanded()]
-            if toDoSection.collapsed {
-                return 51
-            }
-        }*/
-        /*if toDoSections[getSectionToBeExpanded()].collapsed {
-            return 51
-        }*/
-        //return 0
         if toDoSections[indexPath.section].collapsed {
             return 51
         }
@@ -184,7 +172,7 @@ class ToDoListTableViewController: UITableViewController {
             }
             
             // Save the ToDos
-            //saveToDos()
+            saveToDos()
         }
     }
 
@@ -204,7 +192,7 @@ class ToDoListTableViewController: UITableViewController {
             }
             
             guard let selectedToDoItemCell = sender as? ToDoGroupTableViewCell else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(String(describing: sender))")
             }
             
             guard let indexPath = tableView.indexPath(for: selectedToDoItemCell) else {
@@ -216,7 +204,7 @@ class ToDoListTableViewController: UITableViewController {
             print(toDoSections[indexPath.section].toDos[indexPath.row])
             toDoItemDetailViewController.toDo = selectedToDoItem
         default:
-            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
     
@@ -258,6 +246,10 @@ class ToDoListTableViewController: UITableViewController {
         toDoSections = toDoSections.sorted(by: {
             $1 > $0
         })
+    }
+    
+    // Sorts toDo items inside toDo sections
+    private func sortToDoItems() {
     }
     
     private func reloadTableViewData() {

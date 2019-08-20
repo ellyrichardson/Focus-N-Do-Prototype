@@ -208,17 +208,17 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         }
         if indexPath.row == 1 {
             if taskItemsSections[1].collapsed {
-                return 250
+                return 100
             }
         }
         if indexPath.row == 2 {
             if taskItemsSections[2].collapsed {
-                return 100
+                return 140
             }
         }
         if indexPath.row == 3 {
             if taskItemsSections[3].collapsed {
-                return 250
+                return 140
             }
         }
         return 50

@@ -18,6 +18,8 @@ class ToDoGroupTableViewCell: UITableViewCell, UITableViewDelegate {
     @IBOutlet weak var estTimeLabel: UILabel!
     @IBOutlet weak var dueDateLabel: UILabel!
     
+    @IBOutlet weak var doneCheckBox: CheckBox!
+    
     /*@IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var workDateLabel: UILabel!
     @IBOutlet weak var estTimeLabel: UILabel!

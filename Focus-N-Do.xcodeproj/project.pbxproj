@@ -10,6 +10,7 @@
 		21261FED22D06B0E009C12F8 /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21261FEC22D06B0E009C12F8 /* ToDoTableViewCell.swift */; };
 		2128D048230505B70024ABAA /* ToDoDateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2128D047230505B70024ABAA /* ToDoDateSection.swift */; };
 		21374379230B807D0062DFC9 /* HeaderTapGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21374378230B807D0062DFC9 /* HeaderTapGesture.swift */; };
+		2137437B230BA5060062DFC9 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2137437A230BA5060062DFC9 /* CheckBox.swift */; };
 		214FA25B230A6FAE00BB696A /* TableItemSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214FA25A230A6FAE00BB696A /* TableItemSection.swift */; };
 		2155595C22BC73D300DBA267 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2155595B22BC73D300DBA267 /* AppDelegate.swift */; };
 		2155596122BC73D300DBA267 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2155595F22BC73D300DBA267 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 		21261FEC22D06B0E009C12F8 /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
 		2128D047230505B70024ABAA /* ToDoDateSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDateSection.swift; sourceTree = "<group>"; };
 		21374378230B807D0062DFC9 /* HeaderTapGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTapGesture.swift; sourceTree = "<group>"; };
+		2137437A230BA5060062DFC9 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		214FA25A230A6FAE00BB696A /* TableItemSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableItemSection.swift; sourceTree = "<group>"; };
 		2155595822BC73D300DBA267 /* Focus-N-Do.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Focus-N-Do.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2155595B22BC73D300DBA267 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				21374378230B807D0062DFC9 /* HeaderTapGesture.swift */,
+				2137437A230BA5060062DFC9 /* CheckBox.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				2165F0D322DAEA4100061A2C /* ToDoGroupTableViewCell.swift in Sources */,
 				21BD697322C5A6D40033A10A /* ToDo.swift in Sources */,
 				2155597C22BC825200DBA267 /* ToDoItemTableViewController.swift in Sources */,
+				2137437B230BA5060062DFC9 /* CheckBox.swift in Sources */,
 				21261FED22D06B0E009C12F8 /* ToDoTableViewCell.swift in Sources */,
 				21374379230B807D0062DFC9 /* HeaderTapGesture.swift in Sources */,
 				2155595C22BC73D300DBA267 /* AppDelegate.swift in Sources */,

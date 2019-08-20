@@ -13,6 +13,7 @@ class ToDo: NSObject, NSCoding {
     // MARK: - Properties
     var taskName, taskDescription, estTime: String
     var workDate, dueDate: Date
+    var doneCheckBox: CheckBox
     
     // MARK: - Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -25,10 +26,11 @@ class ToDo: NSObject, NSCoding {
         static let workDate = "workDate"
         static let estTime = "estTime"
         static let dueDate = "dueDate"
+        static let doneCheckBox = "doneCheckBox"
     }
     
     // MARK: - Initialization
-    init?(taskName: String, taskDescription: String, workDate: Date, estTime: String, dueDate: Date) {
+    init?(taskName: String, taskDescription: String, workDate: Date, estTime: String, dueDate: Date, doneCheckBox: CheckBox = CheckBox()) {
         // To fail init if one of them is empty
         if taskName.isEmpty || taskDescription.isEmpty || workDate == nil || estTime.isEmpty || dueDate == nil {
             return nil
@@ -40,6 +42,7 @@ class ToDo: NSObject, NSCoding {
         self.workDate = workDate
         self.estTime = estTime
         self.dueDate = dueDate
+        self.doneCheckBox = doneCheckBox
     }
     
     // MARK: - NSCoding
@@ -49,6 +52,7 @@ class ToDo: NSObject, NSCoding {
         aCoder.encode(workDate, forKey: PropertyKey.workDate)
         aCoder.encode(estTime, forKey: PropertyKey.estTime)
         aCoder.encode(dueDate, forKey: PropertyKey.dueDate)
+        aCoder.encode(doneCheckBox, forKey: PropertyKey.doneCheckBox)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -88,7 +92,13 @@ class ToDo: NSObject, NSCoding {
                 return nil
         }
         
+        guard let doneCheckBox = aDecoder.decodeObject (forKey: PropertyKey.doneCheckBox) as? CheckBox
+            else {
+                os_log("Unable to decode the checkBox for a ToDo object.", log: OSLog.default, type: .debug)
+                return nil
+        }
+        
         // Must call designated initializer.
-        self.init(taskName: taskName, taskDescription: taskDescription, workDate: workDate, estTime: estTime, dueDate: dueDate)
+        self.init(taskName: taskName, taskDescription: taskDescription, workDate: workDate, estTime: estTime, dueDate: dueDate, doneCheckBox: doneCheckBox)
     }
 }
