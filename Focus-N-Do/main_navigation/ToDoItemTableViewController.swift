@@ -38,12 +38,14 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
     var toDo: ToDo?
     //var toDoDate: ToDoDate?
     var taskItemsSections = [TableItemSection]()
+    var finished: Bool
     private var chosenWorkDate: Date
     private var chosenDueDate: Date
     
     required init?(coder aDecoder: NSCoder) {
         chosenWorkDate = Date()
         chosenDueDate = Date()
+        finished = false
         super.init(coder: aDecoder)
     }
 
@@ -127,39 +129,6 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
     }
 
     // MARK: - Table View Data Source
-
-    /*override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return taskItemsSections.count
-    }*/
-
-    /*override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if sections[section].collapsed == true {
-            // With + 1 since the title also gets counted as a section
-            return sections[section].items.count + 1
-        } else {
-            return 1
-        }
-    }*/
-
-    /*override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        let dataIndex = indexPath.row - 1
-        if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "toDoConfigCell") else {
-                return UITableViewCell()
-            }
-            cell.textLabel?.text = sections[indexPath.section].name
-            return cell
-        } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "toDoConfigCell") else {
-                return UITableViewCell()
-            }
-            // For the specific items inside the drop down, with -1 because of + 1 from counting sections
-            cell.textLabel?.text = (sections[indexPath.section].items[dataIndex] as! String)
-            return cell
-        }
-    }*/
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
@@ -223,42 +192,6 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         }
         return 50
     }
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     // MARK: - Navigation
     // Prepares view controller before it gets presented
@@ -282,7 +215,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         navigationItem.title = taskName
         
         // Set the ToDo to be passed to ToDoListTableViewController after pressing save with unwind segue
-        toDo = ToDo(taskName: taskName!, taskDescription: taskDescription!, workDate: workDate, estTime: estTime!, dueDate: dueDate)
+        toDo = ToDo(taskName: taskName!, taskDescription: taskDescription!, workDate: workDate, estTime: estTime!, dueDate: dueDate, finished: finished)
         //toDoDate = ToDoDate(toDoDate: workDate)
     }
     

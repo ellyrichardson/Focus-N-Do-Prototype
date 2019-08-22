@@ -13,6 +13,9 @@ class CheckBox: UIButton {
     let checkedImage = UIImage(named: "biege-checked-box")! as UIImage
     let uncheckedImage = UIImage(named: "biege-unchecked-box")! as UIImage
     
+    var toDoSectionIndex: Int = Int()
+    var toDoRowIndex: Int = Int()
+    
     // Bool property
     var isChecked: Bool = false {
         didSet{
@@ -27,6 +30,8 @@ class CheckBox: UIButton {
     override func awakeFromNib() {
         self.addTarget(self, action: #selector(buttonClicked(sender:)), for: UIControl.Event.touchUpInside)
         self.isChecked = false
+        self.toDoSectionIndex = Int()
+        self.toDoRowIndex = Int()
     }
     
     @objc func buttonClicked(sender: UIButton) {

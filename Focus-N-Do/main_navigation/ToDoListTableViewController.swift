@@ -16,7 +16,7 @@ class ToDoListTableViewController: UITableViewController {
     var toDoDateGroup = [String]()
     var toDoSections = [ToDoDateSection]()
     
-    private var sectionToBeExpanded: Int = 0
+    private var buttonChecked: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,7 @@ class ToDoListTableViewController: UITableViewController {
             toDos = savedToDos
         }
         
+        sortToDoItems()
         addToDoInAppropriateSection()
         sortToDoSections()
     }
@@ -36,8 +37,8 @@ class ToDoListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        sortToDoItems()
         addToDoInAppropriateSection()
-        
         sortToDoSections()
         reloadTableViewData()
     }
@@ -85,23 +86,29 @@ class ToDoListTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
         }
         
-        //let toDoSection = self.toDoSections[indexPath.section]
         let toDo = self.toDoSections[indexPath.section].toDos[indexPath.row]
         
         cell.taskNameLabel.text = toDo.taskName
         cell.workDateLabel.text = workDateFormatter.string(from: toDo.workDate)
         cell.estTimeLabel.text = toDo.estTime
         cell.dueDateLabel.text = "Due: " + dueDateFormatter.string(from: toDo.dueDate)
-        cell.doneCheckBox.isChecked = toDo.doneCheckBox.isChecked
+        
+        cell.doneCheckBox.toDoSectionIndex = indexPath.section
+        cell.doneCheckBox.toDoRowIndex = indexPath.row
+        //cell.doneCheckBox = toDo.doneCheckBox
+        print(indexPath.row)
+        print(toDo.finished)
+        cell.doneCheckBox.isChecked = toDo.finished
+        cell.doneCheckBox.addTarget(self, action: #selector(onDoneCheckButtonTap(sender:)), for: .touchUpInside)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if toDoSections[indexPath.section].collapsed {
-            return 51
+            return 0
         }
-        return 0
+        return 51
     }
     
     // Override to support conditional editing of the table view.
@@ -250,12 +257,31 @@ class ToDoListTableViewController: UITableViewController {
     
     // Sorts toDo items inside toDo sections
     private func sortToDoItems() {
+        toDos = toDos.sorted(by: {
+            $1.workDate > $0.workDate
+        })
     }
     
     private func reloadTableViewData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    // MARK: Selector Functions
+    
+    @objc func onDoneCheckButtonTap(sender: CheckBox) {
+        let toDoRowIndex = sender.toDoRowIndex
+        let toDoSectionIndex = sender.toDoSectionIndex
+        let toDoToBeChanged: ToDo = toDoSections[toDoSectionIndex].toDos[toDoRowIndex]
+        if toDoToBeChanged.finished {
+            toDoToBeChanged.finished = false
+        }
+        else {
+            toDoToBeChanged.finished = true
+        }
+        toDoSections[toDoSectionIndex].toDos[toDoRowIndex] = toDoToBeChanged
+        saveToDos()
     }
     
     // MARK: - Fileprivate Methods
