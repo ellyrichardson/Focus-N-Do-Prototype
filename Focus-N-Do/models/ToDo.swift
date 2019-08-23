@@ -95,27 +95,11 @@ class ToDo: NSObject, NSCoding {
                 return nil
         }
         
-        /*guard let doneCheckBox = aDecoder.decodeObject (forKey: PropertyKey.doneCheckBox) as? CheckBox
-            else {
-                os_log("Unable to decode the checkBox for a ToDo object.", log: OSLog.default, type: .debug)
-                return nil
-        }*/
-        
-        /*let finished = aDecoder.decodeObject(forKey: PropertyKey.finished) as? Bool ?? aDecoder.decodeBool(forKey: PropertyKey.finished)
-        else do {
-                os_log("Unable to decode if ToDo object is finished.", log: OSLog.default, type: .debug)
-                return nil
-        }*/
-        
         let finished = Bool(aDecoder.decodeBool(forKey: PropertyKey.finished))
         if finished == nil {
             os_log("Unable to decode if ToDo object is finished.", log: OSLog.default, type: .debug)
             return nil
         }
-            /*else do {
-                os_log("Unable to decode if ToDo object is finished.", log: OSLog.default, type: .debug)
-                return nil
-        }*/
         
         // Must call designated initializer.
         self.init(taskName: taskName, taskDescription: taskDescription, workDate: workDate, estTime: estTime, dueDate: dueDate, finished: finished)
