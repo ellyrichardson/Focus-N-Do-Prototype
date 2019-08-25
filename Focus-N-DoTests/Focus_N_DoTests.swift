@@ -30,5 +30,38 @@ class Focus_N_DoTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testSortToDoSections() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        
+        /*let navigationController = UINavigationController()
+        let listToDoViewController = ToDoListTableViewController()
+        navigationController.viewControllers = [listToDoViewController]
+        
+        let testViewController = navigationController.viewControllers[0]*/
+        
+        let listToDo = storyboard.instantiateInitialViewController() as! ToDoListTableViewController
+        let _ = listToDo.view
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        
+        let expectedResult: [ToDo] = [
+            ToDo(taskName: "Third Task", taskDescription: "Third Task Description", workDate: dateFormatter.date(from: "07/22/2019")!, estTime: "2", dueDate: dateFormatter.date(from: "07/23/2019")!, finished: false),
+            ToDo(taskName: "First Task", taskDescription: "First Task Description", workDate: dateFormatter.date(from: "07/15/2019")!, estTime: "1", dueDate: dateFormatter.date(from: "07/16/2019")!, finished: false),
+            ToDo(taskName: "Second Task", taskDescription: "Second Task Description", workDate: dateFormatter.date(from: "07/18/2019")!, estTime: "3", dueDate: dateFormatter.date(from: "07/19/2019")!, finished: false)
+            ] as! [ToDo]
+        
+        listToDo.toDos = [
+            ToDo(taskName: "Third Task", taskDescription: "Third Task Description", workDate: dateFormatter.date(from: "07/22/2019")!, estTime: "2", dueDate: dateFormatter.date(from: "07/23/2019")!, finished: false),
+            ToDo(taskName: "First Task", taskDescription: "First Task Description", workDate: dateFormatter.date(from: "07/15/2019")!, estTime: "1", dueDate: dateFormatter.date(from: "07/16/2019")!, finished: false),
+            ToDo(taskName: "Second Task", taskDescription: "Second Task Description", workDate: dateFormatter.date(from: "07/18/2019")!, estTime: "3", dueDate: dateFormatter.date(from: "07/19/2019")!, finished: false)
+            ] as! [ToDo]
+        
+        
+        listToDo.viewDidLoad()
+        XCTAssertEqual(expectedResult, listToDo.toDos)
+    }
 
 }

@@ -34,7 +34,7 @@ class ToDo: NSObject, NSCoding {
     // MARK: - Initialization
     init?(taskName: String, taskDescription: String, workDate: Date, estTime: String, dueDate: Date, finished: Bool) {
         // To fail init if one of them is empty
-        if taskName.isEmpty || taskDescription.isEmpty || workDate == nil || estTime.isEmpty || dueDate == nil {
+        if taskName.isEmpty || workDate == nil || estTime.isEmpty || dueDate == nil {
             return nil
         }
         
@@ -44,14 +44,13 @@ class ToDo: NSObject, NSCoding {
         self.workDate = workDate
         self.estTime = estTime
         self.dueDate = dueDate
-        //self.doneCheckBox = doneCheckBox
         self.finished = finished
     }
     
     // MARK: - NSCoding
     func encode(with aCoder: NSCoder) {
         aCoder.encode(taskName, forKey: PropertyKey.taskName)
-        aCoder.encode(taskName, forKey: PropertyKey.taskDescription)
+        aCoder.encode(taskDescription, forKey: PropertyKey.taskDescription)
         aCoder.encode(workDate, forKey: PropertyKey.workDate)
         aCoder.encode(estTime, forKey: PropertyKey.estTime)
         aCoder.encode(dueDate, forKey: PropertyKey.dueDate)

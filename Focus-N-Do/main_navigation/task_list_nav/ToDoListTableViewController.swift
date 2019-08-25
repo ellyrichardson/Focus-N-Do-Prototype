@@ -29,17 +29,17 @@ class ToDoListTableViewController: UITableViewController {
             toDos = savedToDos
         }
         
-        sortToDoItems()
+        toDos = sortToDoItems(toDoItems: toDos)
         addToDoInAppropriateSection()
-        sortToDoSections()
+        toDoSections = sortToDoSections(toDoSections: toDoSections)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        sortToDoItems()
+        toDos = sortToDoItems(toDoItems: toDos)
         addToDoInAppropriateSection()
-        sortToDoSections()
+        toDoSections = sortToDoSections(toDoSections: toDoSections)
         reloadTableViewData()
     }
 
@@ -146,28 +146,17 @@ class ToDoListTableViewController: UITableViewController {
         return headerView
     }
     
-    @objc func handleTap(gestureRecognizer: HeaderTapGesture, section: Int) {
-        let sectionIndex = (gestureRecognizer.section)
-        if toDoSections[sectionIndex].collapsed {
-            toDoSections[sectionIndex].collapsed = false
-        }
-        else {
-            toDoSections[sectionIndex].collapsed = true
-        }
-        
-        self.tableView.reloadSections(NSIndexSet(index: sectionIndex) as IndexSet, with: UITableView.RowAnimation.automatic)
-    }
-    
     // MARK: - Actions
     @IBAction func unwindToToDoList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? ToDoItemTableViewController, let toDo = sourceViewController.toDo {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 // Update an existing ToDo
+                // TODO: NEED FIXING?
                 //toDos.append(toDo)
                 //toDoDateGroup[selectedIndexPath.row] = dateFormatter.string(from: toDo.workDate)
                 //toDoSections[selectedIndexPath.section].toDos[selectedIndexPath.row] = toDo
-                toDos[selectedIndexPath.row] = toDo
+                toDoSections[selectedIndexPath.section].toDos[selectedIndexPath.row] = toDo
                 //tableView.reloadRows(at: [selectedIndexPath], with: .none)
                 tableView.reloadSections(IndexSet(selectedIndexPath), with: UITableView.RowAnimation.automatic)
                 print("Selected INDEX PATH")
@@ -249,17 +238,25 @@ class ToDoListTableViewController: UITableViewController {
         }
     }
     
-    private func sortToDoSections() {
-        toDoSections = toDoSections.sorted(by: {
+    private func sortToDoSections(toDoSections: [ToDoDateSection]) -> [ToDoDateSection] {
+        var sortToDoSections = toDoSections
+        
+        sortToDoSections = sortToDoSections.sorted(by: {
             $1 > $0
         })
+        
+        return sortToDoSections
     }
     
     // Sorts toDo items inside toDo sections
-    private func sortToDoItems() {
-        toDos = toDos.sorted(by: {
+    private func sortToDoItems(toDoItems: [ToDo]) -> [ToDo] {
+        var sortToDos = toDoItems
+        
+        sortToDos = sortToDos.sorted(by: {
             $1.workDate > $0.workDate
         })
+        
+        return sortToDos
     }
     
     private func reloadTableViewData() {
@@ -268,7 +265,7 @@ class ToDoListTableViewController: UITableViewController {
         }
     }
     
-    // MARK: Selector Functions
+    // MARK: Observers
     
     @objc func onDoneCheckButtonTap(sender: CheckBox) {
         let toDoRowIndex = sender.toDoRowIndex
@@ -282,6 +279,18 @@ class ToDoListTableViewController: UITableViewController {
         }
         toDoSections[toDoSectionIndex].toDos[toDoRowIndex] = toDoToBeChanged
         saveToDos()
+    }
+    
+    @objc func handleTap(gestureRecognizer: HeaderTapGesture, section: Int) {
+        let sectionIndex = (gestureRecognizer.section)
+        if toDoSections[sectionIndex].collapsed {
+            toDoSections[sectionIndex].collapsed = false
+        }
+        else {
+            toDoSections[sectionIndex].collapsed = true
+        }
+        
+        self.tableView.reloadSections(NSIndexSet(index: sectionIndex) as IndexSet, with: UITableView.RowAnimation.automatic)
     }
     
     // MARK: - Fileprivate Methods

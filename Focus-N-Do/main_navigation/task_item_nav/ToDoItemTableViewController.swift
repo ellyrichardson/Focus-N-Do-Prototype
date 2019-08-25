@@ -64,6 +64,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
             TableItemSection(name: "Work Date"),
             TableItemSection(name: "Estimated Time"),
             TableItemSection(name: "Due Date"),
+            TableItemSection(name: "Intervals"),
         ]
         
         // Handles the changes for the labels through user input
@@ -130,6 +131,7 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
 
     // MARK: - Table View Data Source
     
+    // TODO: Clean up repetitive access of collapsed; put in a variable
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             if taskItemsSections[0].collapsed {
@@ -167,6 +169,15 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
             tableView.beginUpdates()
             tableView.endUpdates()
         }
+        if indexPath.row == 4 {
+            if taskItemsSections[4].collapsed {
+                taskItemsSections[4].collapsed = false
+            } else {
+                taskItemsSections[4].collapsed = true
+            }
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -188,6 +199,11 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         if indexPath.row == 3 {
             if taskItemsSections[3].collapsed {
                 return 140
+            }
+        }
+        if indexPath.row == 4 {
+            if taskItemsSections[4].collapsed {
+                return 100
             }
         }
         return 50

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,11 @@
 		21374379230B807D0062DFC9 /* HeaderTapGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21374378230B807D0062DFC9 /* HeaderTapGesture.swift */; };
 		2137437B230BA5060062DFC9 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2137437A230BA5060062DFC9 /* CheckBox.swift */; };
 		214FA25B230A6FAE00BB696A /* TableItemSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214FA25A230A6FAE00BB696A /* TableItemSection.swift */; };
+		2154B19B23121A8500AAF415 /* SchedulingAssistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2154B19A23121A8500AAF415 /* SchedulingAssistanceViewController.swift */; };
+		2154B19E2312284600AAF415 /* CalenderCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2154B19D2312284600AAF415 /* CalenderCellView.xib */; };
+		2154B1A123122C8200AAF415 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2154B1A023122C8200AAF415 /* CalendarCell.swift */; };
+		2154B1A4231249D900AAF415 /* CalendarSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2154B1A3231249D900AAF415 /* CalendarSectionHeader.swift */; };
+		2154B1A623124A1F00AAF415 /* CalendarSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2154B1A523124A1F00AAF415 /* CalendarSectionHeader.xib */; };
 		2155595C22BC73D300DBA267 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2155595B22BC73D300DBA267 /* AppDelegate.swift */; };
 		2155596122BC73D300DBA267 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2155595F22BC73D300DBA267 /* Main.storyboard */; };
 		2155596322BC73D600DBA267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2155596222BC73D600DBA267 /* Assets.xcassets */; };
@@ -21,6 +26,7 @@
 		2165F0D322DAEA4100061A2C /* ToDoGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2165F0D222DAEA4100061A2C /* ToDoGroupTableViewCell.swift */; };
 		21BD697122C59C3E0033A10A /* ToDoListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD697022C59C3E0033A10A /* ToDoListTableViewController.swift */; };
 		21BD697322C5A6D40033A10A /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BD697222C5A6D40033A10A /* ToDo.swift */; };
+		5E21B92C802733CAF440F709 /* Pods_Focus_N_Do.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3291496C1C89910EB23F1DB /* Pods_Focus_N_Do.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +45,11 @@
 		21374378230B807D0062DFC9 /* HeaderTapGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTapGesture.swift; sourceTree = "<group>"; };
 		2137437A230BA5060062DFC9 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		214FA25A230A6FAE00BB696A /* TableItemSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableItemSection.swift; sourceTree = "<group>"; };
+		2154B19A23121A8500AAF415 /* SchedulingAssistanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulingAssistanceViewController.swift; sourceTree = "<group>"; };
+		2154B19D2312284600AAF415 /* CalenderCellView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalenderCellView.xib; sourceTree = "<group>"; };
+		2154B1A023122C8200AAF415 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
+		2154B1A3231249D900AAF415 /* CalendarSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSectionHeader.swift; sourceTree = "<group>"; };
+		2154B1A523124A1F00AAF415 /* CalendarSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarSectionHeader.xib; sourceTree = "<group>"; };
 		2155595822BC73D300DBA267 /* Focus-N-Do.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Focus-N-Do.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2155595B22BC73D300DBA267 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2155596022BC73D300DBA267 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -52,6 +63,9 @@
 		2165F0D222DAEA4100061A2C /* ToDoGroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoGroupTableViewCell.swift; sourceTree = "<group>"; };
 		21BD697022C59C3E0033A10A /* ToDoListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListTableViewController.swift; sourceTree = "<group>"; };
 		21BD697222C5A6D40033A10A /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
+		69A07A0B395DF3AE04F93F02 /* Pods-Focus-N-Do.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Focus-N-Do.debug.xcconfig"; path = "Target Support Files/Pods-Focus-N-Do/Pods-Focus-N-Do.debug.xcconfig"; sourceTree = "<group>"; };
+		A3291496C1C89910EB23F1DB /* Pods_Focus_N_Do.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Focus_N_Do.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC693BA396E8B661FF432A36 /* Pods-Focus-N-Do.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Focus-N-Do.release.xcconfig"; path = "Target Support Files/Pods-Focus-N-Do/Pods-Focus-N-Do.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E21B92C802733CAF440F709 /* Pods_Focus_N_Do.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,11 +87,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B25575A336847226CF03919 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				69A07A0B395DF3AE04F93F02 /* Pods-Focus-N-Do.debug.xcconfig */,
+				EC693BA396E8B661FF432A36 /* Pods-Focus-N-Do.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		1D3121AAD9F32A3E3C84FB61 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A3291496C1C89910EB23F1DB /* Pods_Focus_N_Do.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		21374377230B80650062DFC9 /* helpers */ = {
 			isa = PBXGroup;
 			children = (
+				2154B1A22312499600AAF415 /* calendar_section_header */,
 				21374378230B807D0062DFC9 /* HeaderTapGesture.swift */,
 				2137437A230BA5060062DFC9 /* CheckBox.swift */,
+				2154B1A023122C8200AAF415 /* CalendarCell.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -84,9 +118,8 @@
 		214A35BB22FA8A6D00136D25 /* main_navigation */ = {
 			isa = PBXGroup;
 			children = (
-				2155597B22BC825200DBA267 /* ToDoItemTableViewController.swift */,
-				21BD697022C59C3E0033A10A /* ToDoListTableViewController.swift */,
-				214A35BD22FA8AB200136D25 /* table_view_cells */,
+				2154B19923121A0700AAF415 /* task_list_nav */,
+				2154B198231219E800AAF415 /* task_item_nav */,
 			);
 			path = main_navigation;
 			sourceTree = "<group>";
@@ -110,12 +143,56 @@
 			path = table_view_cells;
 			sourceTree = "<group>";
 		};
+		2154B198231219E800AAF415 /* task_item_nav */ = {
+			isa = PBXGroup;
+			children = (
+				2155597B22BC825200DBA267 /* ToDoItemTableViewController.swift */,
+			);
+			path = task_item_nav;
+			sourceTree = "<group>";
+		};
+		2154B19923121A0700AAF415 /* task_list_nav */ = {
+			isa = PBXGroup;
+			children = (
+				214A35BD22FA8AB200136D25 /* table_view_cells */,
+				21BD697022C59C3E0033A10A /* ToDoListTableViewController.swift */,
+			);
+			path = task_list_nav;
+			sourceTree = "<group>";
+		};
+		2154B19C23121AA200AAF415 /* scheduling_assistannce_nav */ = {
+			isa = PBXGroup;
+			children = (
+				2154B19A23121A8500AAF415 /* SchedulingAssistanceViewController.swift */,
+			);
+			path = scheduling_assistannce_nav;
+			sourceTree = "<group>";
+		};
+		2154B19F2312285000AAF415 /* xib_files */ = {
+			isa = PBXGroup;
+			children = (
+				2154B19D2312284600AAF415 /* CalenderCellView.xib */,
+			);
+			path = xib_files;
+			sourceTree = "<group>";
+		};
+		2154B1A22312499600AAF415 /* calendar_section_header */ = {
+			isa = PBXGroup;
+			children = (
+				2154B1A3231249D900AAF415 /* CalendarSectionHeader.swift */,
+				2154B1A523124A1F00AAF415 /* CalendarSectionHeader.xib */,
+			);
+			path = calendar_section_header;
+			sourceTree = "<group>";
+		};
 		2155594F22BC73D300DBA267 = {
 			isa = PBXGroup;
 			children = (
 				2155595A22BC73D300DBA267 /* Focus-N-Do */,
 				2155596F22BC73D600DBA267 /* Focus-N-DoTests */,
 				2155595922BC73D300DBA267 /* Products */,
+				0B25575A336847226CF03919 /* Pods */,
+				1D3121AAD9F32A3E3C84FB61 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,9 +208,11 @@
 		2155595A22BC73D300DBA267 /* Focus-N-Do */ = {
 			isa = PBXGroup;
 			children = (
+				2154B19C23121AA200AAF415 /* scheduling_assistannce_nav */,
 				21374377230B80650062DFC9 /* helpers */,
 				214A35BC22FA8A8C00136D25 /* models */,
 				214A35BB22FA8A6D00136D25 /* main_navigation */,
+				2154B19F2312285000AAF415 /* xib_files */,
 				2155595B22BC73D300DBA267 /* AppDelegate.swift */,
 				2155595F22BC73D300DBA267 /* Main.storyboard */,
 				2155596222BC73D600DBA267 /* Assets.xcassets */,
@@ -159,9 +238,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2155597522BC73D600DBA267 /* Build configuration list for PBXNativeTarget "Focus-N-Do" */;
 			buildPhases = (
+				1E08B25B223CDDE441B9E68F /* [CP] Check Pods Manifest.lock */,
 				2155595422BC73D300DBA267 /* Sources */,
 				2155595522BC73D300DBA267 /* Frameworks */,
 				2155595622BC73D300DBA267 /* Resources */,
+				BB5C5A59CD70DFB4B8FC8E89 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -233,8 +314,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2154B1A623124A1F00AAF415 /* CalendarSectionHeader.xib in Resources */,
 				2155596622BC73D600DBA267 /* LaunchScreen.storyboard in Resources */,
 				2155596322BC73D600DBA267 /* Assets.xcassets in Resources */,
+				2154B19E2312284600AAF415 /* CalenderCellView.xib in Resources */,
 				2155596122BC73D300DBA267 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,11 +331,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1E08B25B223CDDE441B9E68F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Focus-N-Do-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB5C5A59CD70DFB4B8FC8E89 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Focus-N-Do/Pods-Focus-N-Do-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Focus-N-Do/Pods-Focus-N-Do-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Focus-N-Do/Pods-Focus-N-Do-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2155595422BC73D300DBA267 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2154B1A4231249D900AAF415 /* CalendarSectionHeader.swift in Sources */,
 				2128D048230505B70024ABAA /* ToDoDateSection.swift in Sources */,
 				2165F0D322DAEA4100061A2C /* ToDoGroupTableViewCell.swift in Sources */,
 				21BD697322C5A6D40033A10A /* ToDo.swift in Sources */,
@@ -260,6 +386,8 @@
 				2137437B230BA5060062DFC9 /* CheckBox.swift in Sources */,
 				21261FED22D06B0E009C12F8 /* ToDoTableViewCell.swift in Sources */,
 				21374379230B807D0062DFC9 /* HeaderTapGesture.swift in Sources */,
+				2154B1A123122C8200AAF415 /* CalendarCell.swift in Sources */,
+				2154B19B23121A8500AAF415 /* SchedulingAssistanceViewController.swift in Sources */,
 				2155595C22BC73D300DBA267 /* AppDelegate.swift in Sources */,
 				21BD697122C59C3E0033A10A /* ToDoListTableViewController.swift in Sources */,
 				214FA25B230A6FAE00BB696A /* TableItemSection.swift in Sources */,
@@ -422,6 +550,7 @@
 		};
 		2155597622BC73D600DBA267 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69A07A0B395DF3AE04F93F02 /* Pods-Focus-N-Do.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -441,6 +570,7 @@
 		};
 		2155597722BC73D600DBA267 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC693BA396E8B661FF432A36 /* Pods-Focus-N-Do.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
