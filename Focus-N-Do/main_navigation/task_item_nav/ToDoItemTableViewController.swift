@@ -46,8 +46,36 @@ class ToDoItemTableViewController: UITableViewController, UITextFieldDelegate, U
         chosenWorkDate = Date()
         chosenDueDate = Date()
         finished = false
+        
+        // If workDate already exist, then don't set replace chosenWorkDate to the actual toDo date
+        if toDo?.workDate != nil {
+            chosenWorkDate = (toDo?.workDate)!
+        }
+        // If dueDate already exist, then don't set replace chosenDueDate to the actual toDo date
+        if toDo?.dueDate != nil {
+            chosenDueDate = (toDo?.dueDate)!
+        }
+        // If item edited is already finished
+        if toDo?.finished != false {
+            finished = !finished
+        }
+        
         super.init(coder: aDecoder)
     }
+    
+    /* let workDate, dueDate: Date
+     
+     if toDo?.workDate != nil {
+     workDate = (toDo?.workDate)!
+     } else {
+     workDate = chosenWorkDate
+     }
+     
+     if toDo?.dueDate != nil {
+     dueDate = (toDo?.dueDate)!
+     } else {
+     dueDate = chosenDueDate
+     }*/
 
     override func viewDidLoad() {
         super.viewDidLoad()

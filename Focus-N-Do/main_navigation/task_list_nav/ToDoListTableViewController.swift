@@ -17,6 +17,7 @@ class ToDoListTableViewController: UITableViewController {
     var toDoSections = [ToDoDateSection]()
     
     private var buttonChecked: Int = 0
+    private var editedRow: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,20 +27,23 @@ class ToDoListTableViewController: UITableViewController {
         
         // If there are saved ToDos, load them
         if let savedToDos = loadToDos() {
-            toDos = savedToDos
+            setToDoItems(toDoItems: savedToDos)
         }
         
-        toDos = sortToDoItems(toDoItems: toDos)
+        //toDos = sortToDoItems(toDoItems: toDos)
+        sortToDoItems()
+        //setToDoItems(toDoItems: sortToDoItems(toDoItems: getToDoItems()))
         addToDoInAppropriateSection()
-        toDoSections = sortToDoSections(toDoSections: toDoSections)
+        //toDoSections = sortToDoSections(toDoSections: toDoSections)
+        sortToDoSections()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        toDos = sortToDoItems(toDoItems: toDos)
+        sortToDoItems()
         addToDoInAppropriateSection()
-        toDoSections = sortToDoSections(toDoSections: toDoSections)
+        sortToDoSections()
         reloadTableViewData()
     }
 
@@ -89,13 +93,12 @@ class ToDoListTableViewController: UITableViewController {
         let toDo = self.toDoSections[indexPath.section].toDos[indexPath.row]
         
         cell.taskNameLabel.text = toDo.taskName
-        cell.workDateLabel.text = workDateFormatter.string(from: toDo.workDate)
-        cell.estTimeLabel.text = toDo.estTime
+        cell.workDateLabel.text = "Start: " + workDateFormatter.string(from: toDo.workDate)
+        cell.estTimeLabel.text = "Est. Time: " + toDo.estTime
         cell.dueDateLabel.text = "Due: " + dueDateFormatter.string(from: toDo.dueDate)
         
         cell.doneCheckBox.toDoSectionIndex = indexPath.section
         cell.doneCheckBox.toDoRowIndex = indexPath.row
-        //cell.doneCheckBox = toDo.doneCheckBox
         print(indexPath.row)
         print(toDo.finished)
         cell.doneCheckBox.isChecked = toDo.finished
@@ -141,6 +144,8 @@ class ToDoListTableViewController: UITableViewController {
         tapRecognizer.numberOfTapsRequired = 1
         tapRecognizer.numberOfTouchesRequired = 1
         tapRecognizer.section = section
+        // Was supposed to make background color of headers orange
+        headerView.backgroundColor = UIColor.orange
         headerView.addGestureRecognizer(tapRecognizer)
         
         return headerView
@@ -156,8 +161,14 @@ class ToDoListTableViewController: UITableViewController {
                 //toDos.append(toDo)
                 //toDoDateGroup[selectedIndexPath.row] = dateFormatter.string(from: toDo.workDate)
                 //toDoSections[selectedIndexPath.section].toDos[selectedIndexPath.row] = toDo
-                toDoSections[selectedIndexPath.section].toDos[selectedIndexPath.row] = toDo
+                //toDoSections[selectedIndexPath.section].toDos[selectedIndexPath.row] = toDo
                 //tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                //tableView.reloadSections(IndexSet(selectedIndexPath), with: UITableView.RowAnimation.automatic)
+                /*if let delToDo = toDoSections[selectedIndexPath.section].toDos.index(of: toDo) {
+                    toDos.remove(at: delToDo)
+                }*/
+                toDos.remove(at: editedRow)
+                toDos.append(toDo)
                 tableView.reloadSections(IndexSet(selectedIndexPath), with: UITableView.RowAnimation.automatic)
                 print("Selected INDEX PATH")
                 print(IndexSet(selectedIndexPath).count)
@@ -199,6 +210,9 @@ class ToDoListTableViewController: UITableViewController {
             print("Section + Row")
             print(toDoSections[indexPath.section].toDos[indexPath.row])
             toDoItemDetailViewController.toDo = selectedToDoItem
+            
+            // To keep track of which row is being edited for the appearing of this display
+            editedRow = toDos.firstIndex(of: toDoSections[indexPath.section].toDos[indexPath.row])!
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
@@ -238,31 +252,51 @@ class ToDoListTableViewController: UITableViewController {
         }
     }
     
-    private func sortToDoSections(toDoSections: [ToDoDateSection]) -> [ToDoDateSection] {
-        var sortToDoSections = toDoSections
+    private func sortToDoSections() {
+        var toDoSectionsToBeSorted = getToDoSections()
         
-        sortToDoSections = sortToDoSections.sorted(by: {
+        toDoSectionsToBeSorted = toDoSectionsToBeSorted.sorted(by: {
             $1 > $0
         })
         
-        return sortToDoSections
+        setToDoSections(toDoSections: toDoSectionsToBeSorted)
     }
     
     // Sorts toDo items inside toDo sections
-    private func sortToDoItems(toDoItems: [ToDo]) -> [ToDo] {
-        var sortToDos = toDoItems
+    private func sortToDoItems() {
+        var toDosToBeSorted = getToDoItems()
         
-        sortToDos = sortToDos.sorted(by: {
+        toDosToBeSorted = toDosToBeSorted.sorted(by: {
             $1.workDate > $0.workDate
         })
         
-        return sortToDos
+        setToDoItems(toDoItems: toDosToBeSorted)
     }
     
     private func reloadTableViewData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    // MARK: Setters
+    
+    func setToDoItems(toDoItems: [ToDo]) {
+        self.toDos = toDoItems
+    }
+    
+    func setToDoSections(toDoSections: [ToDoDateSection]) {
+        self.toDoSections = toDoSections
+    }
+    
+    // MARK: Getters
+    
+    func getToDoItems() -> [ToDo] {
+        return self.toDos
+    }
+    
+    func getToDoSections() -> [ToDoDateSection] {
+        return self.toDoSections
     }
     
     // MARK: Observers
