@@ -32,9 +32,7 @@ class ToDoListTableViewController: UITableViewController {
         
         //toDos = sortToDoItems(toDoItems: toDos)
         sortToDoItems()
-        //setToDoItems(toDoItems: sortToDoItems(toDoItems: getToDoItems()))
         addToDoInAppropriateSection()
-        //toDoSections = sortToDoSections(toDoSections: toDoSections)
         sortToDoSections()
     }
     
@@ -172,9 +170,7 @@ class ToDoListTableViewController: UITableViewController {
                 tableView.reloadSections(IndexSet(selectedIndexPath), with: UITableView.RowAnimation.automatic)
                 print("Selected INDEX PATH")
                 print(IndexSet(selectedIndexPath).count)
-            }
-            
-            else {
+            } else {
                 toDos.append(toDo)
             }
             

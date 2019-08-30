@@ -226,8 +226,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="825-dK-fQA">
-                                <rect key="frame" x="0.0" y="64" width="320" height="505"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="825-dK-fQA">
+                                <rect key="frame" x="0.0" y="64" width="320" height="266.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="39.5" translatesAutoresizingMaskIntoConstraints="NO" id="22H-OM-h3d">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="20.5"/>
@@ -238,7 +239,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eST-J1-t0b">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="754" text="M" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eST-J1-t0b">
                                                 <rect key="frame" x="50.5" y="0.0" width="14.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -277,9 +278,12 @@
                                         </subviews>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iru-4r-Y0A" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
-                                        <rect key="frame" x="0.0" y="20.5" width="320" height="484.5"/>
+                                        <rect key="frame" x="0.0" y="20.5" width="320" height="246"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Imo-UL-Qxs">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="246" id="tDY-Yg-EBb"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PFW-ln-HWz">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -294,7 +298,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="arG-yc-v8J" userLabel="Selected View">
-                                                            <rect key="frame" x="0.0" y="-0.5" width="50" height="50"/>
+                                                            <rect key="frame" x="0.0" y="-0.5" width="50" height="49.5"/>
                                                             <color key="backgroundColor" red="0.98729825927850723" green="1" blue="0.27800272181357122" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -303,11 +307,11 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yfu-eY-cav" userLabel="Background">
-                                                            <rect key="frame" x="0.0" y="-0.5" width="50" height="50"/>
+                                                            <rect key="frame" x="0.0" y="-0.5" width="50" height="49.5"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kml-hK-wkI">
-                                                            <rect key="frame" x="4" y="14.5" width="42" height="21"/>
+                                                            <rect key="frame" x="4" y="14.5" width="42" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -337,7 +341,7 @@
                                         </cells>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cellSize">
-                                                <real key="value" value="50"/>
+                                                <real key="value" value="45"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -347,18 +351,28 @@
                                     </collectionView>
                                 </subviews>
                             </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4CO-wM-dK2">
+                                <rect key="frame" x="0.0" y="329" width="320" height="239"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoTableViewCell" id="ttg-37-Ovj" customClass="ToDoGroupTableViewCell" customModule="Focus_N_Do" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ttg-37-Ovj" id="4aE-ro-I1v">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="825-dK-fQA" secondAttribute="trailing" id="CIx-Ze-KYl"/>
-                            <constraint firstItem="825-dK-fQA" firstAttribute="leading" secondItem="zpP-NN-snr" secondAttribute="leading" id="RyE-tu-HSr"/>
-                            <constraint firstItem="825-dK-fQA" firstAttribute="top" secondItem="SLA-Zk-vUx" secondAttribute="top" id="kzo-kz-AQs"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="825-dK-fQA" secondAttribute="bottom" constant="-1" id="wPt-D4-XOH"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="SLA-Zk-vUx"/>
                     </view>
                     <connections>
                         <outlet property="calendarView" destination="iru-4r-Y0A" id="HTt-Ix-8BG"/>
+                        <outlet property="toDoListTableView" destination="4CO-wM-dK2" id="3sH-s0-obh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGq-sS-IEh" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -12,16 +12,31 @@
 import UIKit
 import JTAppleCalendar
 
-class SchedulingAssistanceViewController: UIViewController {
+class SchedulingAssistanceViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var calendarView: JTAppleCalendarView!
+    @IBOutlet weak var toDoListTableView: UITableView!
+    
+    private var toDoItems = [ToDo]()
+    private var toDosInDate = [ToDo]()
+    private var chosenDate = Date()
+    
     let formatter = DateFormatter()
     let numberOfRows = 6
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        //tableView.delegate = self
+        //tableView.dataSource = self
+        
+        // If there are saved ToDos, load them
+        if let savedToDos = loadToDos() {
+            setToDoItems(toDoItems: savedToDos)
+        }
+        
         configureCalendarView()
+        //toDoListTableView.dataSource = self as! UITableViewDataSource
     }
     
     func configureCalendarView(){
@@ -44,24 +59,30 @@ class SchedulingAssistanceViewController: UIViewController {
         }
         
         currentCell.dateLabel.text = cellState.text
+        print("Cell State")
+        print(cellState.text)
+        print(cellState.date)
+        print(cellState.dateBelongsTo.rawValue)
+        chosenDate = cellState.date
         //configureSelectedStateFor(cell: currentCell, cellState: cellState)
         configureTextColorFor(cell: currentCell, cellState: cellState)
         let cellHidden = cellState.dateBelongsTo != .thisMonth
         currentCell.isHidden = cellHidden
-        
     }
+    
     // Configure text colors
     func configureTextColorFor(cell: JTAppleCell?, cellState: CellState){
         
         guard let currentCell = cell as? CalendarCell else {
             return
         }
-        if cellState.isSelected{
-            currentCell.dateLabel.textColor = UIColor.black
-        }else{
+        
+        if cellState.isSelected {
+            currentCell.dateLabel.textColor = UIColor.red
+        } else {
             if cellState.dateBelongsTo == .thisMonth && cellState.date > Date()  {
                 currentCell.dateLabel.textColor = UIColor.black
-            }else{
+            } else {
                 currentCell.dateLabel.textColor = UIColor.gray
             }
         }
@@ -72,14 +93,72 @@ class SchedulingAssistanceViewController: UIViewController {
         guard let currentCell = cell as? CalendarCell else {
             return
         }
+        
         if cellState.isSelected{
             currentCell.selectedView.isHidden = false
             currentCell.bgView.isHidden = true
-        }else{
+        } else {
             currentCell.selectedView.isHidden = true
             currentCell.bgView.isHidden = true
         }
     }
+    
+    // MARK: Table view data source
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.toDoItems.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let dateCellIdentifier = "ToDoTableViewCell"
+        
+        let dueDateFormatter = DateFormatter()
+        let workDateFormatter = DateFormatter()
+        dueDateFormatter.dateFormat = "M/d/yy, h:mm a"
+        workDateFormatter.dateFormat = "h:mm a"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: dateCellIdentifier, for: indexPath) as? ToDoGroupTableViewCell else {
+            fatalError("The dequeued cell is not an instance of ToDoTableViewCell.")
+        }
+        
+        let toDo = self.toDosInDate[indexPath.row]
+        
+        cell.taskNameLabel.text = toDo.taskName
+        cell.estTimeLabel.text = toDo.estTime
+        cell.workDateLabel.text = workDateFormatter.string(from: toDo.workDate)
+        cell.dueDateLabel.text = dueDateFormatter.string(from: toDo.dueDate)
+        
+        return cell
+    }
+    
+    // MARK: Setters
+    
+    func setToDoItems(toDoItems: [ToDo]) {
+        self.toDoItems = toDoItems
+    }
+    
+    // MARK: Getters
+    
+    func getToDoItems() -> [ToDo] {
+        return self.toDosInDate
+    }
+    
+    // MARK: Private Functions
+    private func loadToDos() -> [ToDo]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: ToDo.ArchiveURL.path) as? [ToDo]
+    }
+    
+    /*private func reloadTableViewData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }*/
 }
 
 extension SchedulingAssistanceViewController: JTAppleCalendarViewDataSource {
